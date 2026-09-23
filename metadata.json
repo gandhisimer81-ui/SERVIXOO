@@ -1,0 +1,6 @@
+{
+  "name": "Servixoo",
+  "description": "An AI-driven labour market intelligence and curriculum alignment platform.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}
