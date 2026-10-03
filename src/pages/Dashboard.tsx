@@ -87,7 +87,7 @@ export default function Dashboard() {
   ];
 
   return (
-    <div className="flex-1 overflow-y-auto p-8 bg-slate-50/50">
+    <div className="flex-1 overflow-y-auto p-4 sm:p-6 lg:p-8 bg-slate-50/50">
       {/* Upper header */}
       <div className="flex flex-col gap-1 mb-8" id="dashboard-header">
         <h2 className="text-2xl font-bold text-slate-900 tracking-tight">Intelligence Dashboard</h2>
@@ -95,7 +95,7 @@ export default function Dashboard() {
       </div>
 
       {/* KPI Stats Cards */}
-      <div className="grid grid-cols-1 md:grid-cols-4 gap-6 mb-8" id="dashboard-kpi-grid">
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 mb-8" id="dashboard-kpi-grid">
         {/* Card 1 */}
         <div className="bg-white rounded-2xl p-6 border border-slate-100 shadow-sm flex items-start gap-4">
           <div className="p-3.5 rounded-xl bg-blue-50 text-blue-600">

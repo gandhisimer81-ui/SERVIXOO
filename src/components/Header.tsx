@@ -1,5 +1,5 @@
 import { useState, useEffect, useRef } from 'react';
-import { Search, X, BookOpen, TrendingUp, Cpu, Calendar, Clock, GraduationCap, ArrowRight, ShieldCheck, ListChecks, Building } from 'lucide-react';
+import { Search, X, BookOpen, TrendingUp, Cpu, Calendar, Clock, GraduationCap, ArrowRight, ShieldCheck, ListChecks, Building, Menu, LogOut } from 'lucide-react';
 
 interface SyllabusUnitResult {
   id: number;
@@ -32,9 +32,11 @@ interface MarketSkillResult {
 interface HeaderProps {
   activeTab: string;
   setActiveTab: (tab: string) => void;
+  onMenuClick?: () => void;
+  onLogout?: () => void;
 }
 
-export default function Header({ activeTab, setActiveTab }: HeaderProps) {
+export default function Header({ activeTab, setActiveTab, onMenuClick, onLogout }: HeaderProps) {
   const [query, setQuery] = useState('');
   const [isFocused, setIsFocused] = useState(false);
   const [syllabusUnits, setSyllabusUnits] = useState<SyllabusUnitResult[]>([]);
@@ -158,60 +160,70 @@ export default function Header({ activeTab, setActiveTab }: HeaderProps) {
   return (
     <>
       <header
-        className={`h-20 border-b shrink-0 flex items-center justify-between px-8 z-30 transition-all duration-300 ${
+        className={`h-20 border-b shrink-0 flex items-center justify-between px-4 sm:px-8 z-30 transition-all duration-300 ${
           activeTab === 'explorer'
             ? 'bg-slate-950 border-slate-800 text-slate-100'
             : 'bg-white border-slate-100 text-slate-800 shadow-sm'
         }`}
         id="global-navbar-header"
       >
-        {/* Left side: Context badge / Current page indicator */}
-        <div className="flex items-center gap-3">
+        {/* Left side: Context badge / Current page indicator & mobile menu toggle */}
+        <div className="flex items-center gap-2 sm:gap-3">
+          {onMenuClick && (
+            <button
+              onClick={onMenuClick}
+              className="p-2 -ml-2 text-slate-500 hover:text-slate-800 rounded-lg hover:bg-slate-100 md:hidden focus:outline-none cursor-pointer"
+              aria-label="Toggle Menu"
+            >
+              <Menu className="w-5 h-5" />
+            </button>
+          )}
           <div className={`hidden sm:flex items-center gap-2 px-3 py-1.5 rounded-full text-xs font-semibold tracking-tight border ${statusInfo.color}`}>
             <span className="w-2 h-2 rounded-full bg-current animate-pulse" />
             <span>{statusInfo.label}</span>
           </div>
         </div>
 
-        {/* Center/Right: Interactive Global Search Box */}
-        <div className="relative w-full max-w-xl" ref={containerRef} id="global-search-container">
-          <div
-            className={`relative flex items-center w-full rounded-2xl border transition-all duration-300 ${
-              activeTab === 'explorer'
-                ? 'bg-slate-900 border-slate-800 focus-within:border-indigo-500 focus-within:ring-2 focus-within:ring-indigo-500/20'
-                : 'bg-slate-50 border-slate-200 focus-within:border-blue-500 focus-within:ring-2 focus-within:ring-blue-500/10 focus-within:bg-white'
-            }`}
-          >
-            <div className="absolute left-4 pointer-events-none text-slate-400">
-              <Search className="w-5 h-5" />
+        {/* Center/Right: Interactive Global Search Box & Logout Button */}
+        <div className="flex items-center gap-3 w-full max-w-lg md:max-w-xl justify-end">
+          <div className="relative flex-1" ref={containerRef} id="global-search-container">
+            <div
+              className={`relative flex items-center w-full rounded-2xl border transition-all duration-300 ${
+                activeTab === 'explorer'
+                  ? 'bg-slate-900 border-slate-800 focus-within:border-indigo-500 focus-within:ring-2 focus-within:ring-indigo-500/20'
+                  : 'bg-slate-50 border-slate-200 focus-within:border-blue-500 focus-within:ring-2 focus-within:ring-blue-500/10 focus-within:bg-white'
+              }`}
+            >
+              <div className="absolute left-4 pointer-events-none text-slate-400">
+                <Search className="w-5 h-5" />
+              </div>
+
+              <input
+                ref={inputRef}
+                type="text"
+                placeholder="Search syllabus, topics, or trends..."
+                value={query}
+                onChange={(e) => {
+                  setQuery(e.target.value);
+                  setIsFocused(true);
+                }}
+                onFocus={() => setIsFocused(true)}
+                className="w-full pl-11 pr-12 py-2.5 bg-transparent text-sm focus:outline-none placeholder-slate-400 font-medium leading-relaxed rounded-2xl"
+              />
+
+              {query ? (
+                <button
+                  onClick={() => setQuery('')}
+                  className="absolute right-4 text-slate-400 hover:text-slate-600 p-0.5 rounded-full hover:bg-slate-200/50 transition-colors"
+                >
+                  <X className="w-4 h-4" />
+                </button>
+              ) : (
+                <kbd className="absolute right-4 hidden lg:inline-flex items-center gap-0.5 h-6 select-none rounded-lg border border-slate-200 bg-white px-2 text-[10px] font-bold text-slate-400 shadow-sm pointer-events-none">
+                  <span className="text-[9px]">⌘</span>K
+                </kbd>
+              )}
             </div>
-
-            <input
-              ref={inputRef}
-              type="text"
-              placeholder="Search syllabus units, topics, or industry trends... (Press '/' or 'Ctrl+K' to focus)"
-              value={query}
-              onChange={(e) => {
-                setQuery(e.target.value);
-                setIsFocused(true);
-              }}
-              onFocus={() => setIsFocused(true)}
-              className="w-full pl-11 pr-12 py-3 bg-transparent text-sm focus:outline-none placeholder-slate-400 font-medium leading-relaxed rounded-2xl"
-            />
-
-            {query ? (
-              <button
-                onClick={() => setQuery('')}
-                className="absolute right-4 text-slate-400 hover:text-slate-600 p-0.5 rounded-full hover:bg-slate-200/50 transition-colors"
-              >
-                <X className="w-4 h-4" />
-              </button>
-            ) : (
-              <kbd className="absolute right-4 hidden md:inline-flex items-center gap-0.5 h-6 select-none rounded-lg border border-slate-200 bg-white px-2 text-[10px] font-bold text-slate-400 shadow-sm pointer-events-none">
-                <span className="text-[9px]">⌘</span>K
-              </kbd>
-            )}
-          </div>
 
           {/* Real-time categorized search results dropdown list */}
           {isFocused && normalizedQuery && (
@@ -352,7 +364,19 @@ export default function Header({ activeTab, setActiveTab }: HeaderProps) {
             </div>
           )}
         </div>
-      </header>
+
+        {onLogout && (
+          <button
+            onClick={onLogout}
+            className="flex items-center gap-1.5 text-xs font-semibold text-slate-500 hover:text-slate-800 transition-colors bg-slate-50 hover:bg-slate-100 border border-slate-200 px-3 py-2 rounded-xl cursor-pointer shrink-0 shadow-sm"
+            title="Sign Out"
+          >
+            <LogOut className="w-4 h-4" />
+            <span className="hidden sm:inline">Sign Out</span>
+          </button>
+        )}
+      </div>
+    </header>
 
       {/* MODAL 1: Syllabus Unit Details Modals Card */}
       {selectedUnit && (

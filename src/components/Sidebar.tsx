@@ -1,12 +1,14 @@
-import { LayoutDashboard, Briefcase, Award, FileSpreadsheet, GraduationCap, TrendingUp } from 'lucide-react';
+import { LayoutDashboard, Briefcase, Award, FileSpreadsheet, GraduationCap, TrendingUp, X } from 'lucide-react';
 import Logo from './Logo';
 
 interface SidebarProps {
   activeTab: string;
   setActiveTab: (tab: string) => void;
+  isOpen?: boolean;
+  onClose?: () => void;
 }
 
-export default function Sidebar({ activeTab, setActiveTab }: SidebarProps) {
+export default function Sidebar({ activeTab, setActiveTab, isOpen, onClose }: SidebarProps) {
   const menuItems = [
     { id: 'dashboard', name: 'Dashboard', icon: LayoutDashboard, description: 'Labour intelligence overview' },
     { id: 'market', name: 'Labour Market', icon: Briefcase, description: 'Market trends & AI extraction' },
@@ -17,12 +19,37 @@ export default function Sidebar({ activeTab, setActiveTab }: SidebarProps) {
   ];
 
   return (
-    <aside className="w-85 h-screen bg-[#0f172a] text-slate-100 flex flex-col justify-between border-r border-slate-800 shrink-0 select-none" id="sidebar-container">
-      <div className="flex flex-col gap-8 p-6">
-        {/* Brand Header */}
-        <div className="flex items-center justify-start py-2">
-          <Logo theme="dark" hideSubtext={true} className="h-10 w-auto" />
-        </div>
+    <>
+      {/* Mobile background overlay */}
+      {isOpen && (
+        <div
+          className="fixed inset-0 bg-slate-950/60 z-40 md:hidden backdrop-blur-xs transition-opacity duration-300"
+          onClick={onClose}
+        />
+      )}
+
+      <aside
+        className={`fixed inset-y-0 left-0 z-50 w-72 sm:w-80 md:w-85 h-screen bg-[#0f172a] text-slate-100 flex flex-col justify-between border-r border-slate-800 shrink-0 select-none transition-transform duration-300 md:relative md:translate-x-0 ${
+          isOpen ? 'translate-x-0' : '-translate-x-full md:translate-x-0'
+        }`}
+        id="sidebar-container"
+      >
+        <div className="flex flex-col gap-8 p-6">
+          {/* Brand Header */}
+          <div className="flex items-center justify-between py-2">
+            <Logo theme="dark" hideSubtext={true} className="h-10 w-auto" />
+            
+            {/* Close button for mobile */}
+            {onClose && (
+              <button
+                onClick={onClose}
+                className="p-1.5 hover:bg-slate-800 text-slate-400 hover:text-white rounded-lg md:hidden cursor-pointer"
+                aria-label="Close Sidebar"
+              >
+                <X className="w-5 h-5" />
+              </button>
+            )}
+          </div>
 
         {/* Divider */}
         <div className="h-px bg-gradient-to-r from-slate-800 to-transparent" />
@@ -62,5 +89,6 @@ export default function Sidebar({ activeTab, setActiveTab }: SidebarProps) {
         </p>
       </div>
     </aside>
+    </>
   );
 }

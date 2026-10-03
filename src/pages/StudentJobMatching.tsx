@@ -63,7 +63,7 @@ export default function StudentJobMatching() {
   };
 
   return (
-    <div className="flex-1 overflow-y-auto p-8 bg-slate-50/50" id="job-matching-page">
+    <div className="flex-1 overflow-y-auto p-4 sm:p-6 lg:p-8 bg-slate-50/50" id="job-matching-page">
       {/* Title block */}
       <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 mb-8">
         <div>

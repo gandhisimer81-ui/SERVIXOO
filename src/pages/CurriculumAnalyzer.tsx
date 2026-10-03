@@ -304,7 +304,7 @@ export default function CurriculumAnalyzer() {
   const activeInst = curricula.find(c => c.id === Number(selectedInstId));
 
   return (
-    <div className="flex-1 overflow-y-auto p-8 bg-[#f8fafc]" id="curriculum-analyzer-page">
+    <div className="flex-1 overflow-y-auto p-4 sm:p-6 lg:p-8 bg-[#f8fafc]" id="curriculum-analyzer-page">
       {/* Page Header */}
       <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 mb-8">
         <div className="flex flex-col gap-1">

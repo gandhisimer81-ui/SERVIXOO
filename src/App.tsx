@@ -59,6 +59,7 @@ export default function App() {
   const [isAuthenticated, setIsAuthenticated] = useState<boolean>(false);
   const [userRole, setUserRole] = useState<'student' | 'institution' | 'employer' | 'admin' | null>(null);
   const [activeTab, setActiveTab] = useState<string>('dashboard');
+  const [sidebarOpen, setSidebarOpen] = useState<boolean>(false);
   
   // Guided Demo States
   const [demoActive, setDemoActive] = useState<boolean>(false);
@@ -116,30 +117,32 @@ export default function App() {
   return (
     <div className="flex h-screen w-screen overflow-hidden bg-slate-50 font-sans text-slate-700 antialiased relative" id="servixoo-app-root">
       {/* Sidebar navigation panel */}
-      <Sidebar activeTab={activeTab} setActiveTab={(tab) => {
-        setActiveTab(tab);
-        // Sync with demo step if clicked manually
-        const matchedStep = DEMO_STEPS.findIndex(s => s.tab === tab);
-        if (matchedStep !== -1 && demoActive) {
-          setDemoStepIndex(matchedStep);
-        }
-      }} />
+      <Sidebar 
+        activeTab={activeTab} 
+        setActiveTab={(tab) => {
+          setActiveTab(tab);
+          setSidebarOpen(false); // close sidebar on mobile select
+          // Sync with demo step if clicked manually
+          const matchedStep = DEMO_STEPS.findIndex(s => s.tab === tab);
+          if (matchedStep !== -1 && demoActive) {
+            setDemoStepIndex(matchedStep);
+          }
+        }}
+        isOpen={sidebarOpen}
+        onClose={() => setSidebarOpen(false)}
+      />
 
       {/* Main Content Stage Area */}
       <main className="flex-1 h-full overflow-hidden flex flex-col relative" id="main-content-stage">
         
         {/* Global navigation header containing the search bar */}
         <div className="relative">
-          <Header activeTab={activeTab} setActiveTab={setActiveTab} />
-          
-          {/* Quick Landing Page Return link */}
-          <button 
-            onClick={handleLogout}
-            className="absolute right-6 top-5 flex items-center gap-1.5 text-xs font-semibold text-slate-400 hover:text-slate-600 transition-colors bg-slate-50 hover:bg-slate-100 border border-slate-200 px-3 py-1.5 rounded-lg cursor-pointer z-50"
-          >
-            <ArrowLeft className="w-3.5 h-3.5" />
-            Sign Out
-          </button>
+          <Header 
+            activeTab={activeTab} 
+            setActiveTab={setActiveTab} 
+            onMenuClick={() => setSidebarOpen(true)}
+            onLogout={handleLogout}
+          />
         </div>
 
         {/* Selected sub-page view stage area */}
