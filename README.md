@@ -1,6 +1,6 @@
 # Servixoo — AI-Driven Labour Market Intelligence & Curriculum Alignment Platform
 
-Servixoo is a full-stack, AI-powered platform designed to close the gap between educational curriculum development and real-time industry skill demands (SIH Problem Statement ID: SIH263134). By continuously analyzing labor market trends, tracking regional hiring metrics, and comparing curriculum topics against in-demand profiles, Servixoo assists academic institutions and district planner boards in keeping courses modern, relevant, and aligned with market forces.
+Servixoo is a full-stack, AI-powered platform designed to close the gap between educational curriculum development and real-time industry skill demands (. By continuously analyzing labor market trends, tracking regional hiring metrics, and comparing curriculum topics against in-demand profiles, Servixoo assists academic institutions and district planner boards in keeping courses modern, relevant, and aligned with market forces.
 
 ---
 
