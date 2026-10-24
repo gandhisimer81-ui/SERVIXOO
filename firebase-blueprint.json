@@ -1,0 +1,49 @@
+{
+  "entities": {
+    "User": {
+      "title": "User",
+      "description": "User profile containing academic details, target career role, and preferences",
+      "type": "object",
+      "properties": {
+        "id": { "type": "string", "description": "Firebase Auth UID" },
+        "email": { "type": "string", "description": "User email address" },
+        "displayName": { "type": "string", "description": "Student or user full name" },
+        "college": { "type": "string", "description": "University or college institution name" },
+        "course": { "type": "string", "description": "Current degree or stream" },
+        "targetRole": { "type": "string", "description": "Selected dream job title" },
+        "selectedSkills": { "type": "array", "description": "List of skills acquired in college" },
+        "readinessScore": { "type": "number", "description": "Latest computed readiness percentage" },
+        "createdAt": { "type": "string", "description": "Account registration timestamp" },
+        "updatedAt": { "type": "string", "description": "Last profile update timestamp" }
+      },
+      "required": ["id", "email", "createdAt"]
+    },
+    "Assessment": {
+      "title": "Assessment",
+      "description": "Skill gap assessment record capturing student inputs and computed output",
+      "type": "object",
+      "properties": {
+        "id": { "type": "string", "description": "Unique assessment document ID" },
+        "userId": { "type": "string", "description": "ID of the student who took the assessment" },
+        "targetRole": { "type": "string", "description": "Target commercial role assessed against" },
+        "skillsDeclared": { "type": "array", "description": "Array of skills entered by student" },
+        "customCoursework": { "type": "string", "description": "Free text notes or coursework" },
+        "readinessScore": { "type": "number", "description": "Computed readiness percentage" },
+        "matchedSkills": { "type": "array", "description": "Skills matching market requirements" },
+        "missingSkills": { "type": "array", "description": "Gaps identified in syllabus" },
+        "timestamp": { "type": "string", "description": "Assessment execution timestamp" }
+      },
+      "required": ["id", "userId", "targetRole", "readinessScore", "timestamp"]
+    }
+  },
+  "firestore": {
+    "/users/{userId}": {
+      "schema": "User",
+      "description": "Student user profile documents"
+    },
+    "/users/{userId}/assessments/{assessmentId}": {
+      "schema": "Assessment",
+      "description": "Historical assessment records for a student"
+    }
+  }
+}
