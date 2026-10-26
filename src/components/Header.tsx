@@ -155,7 +155,7 @@ export default function Header({
           </button>
 
           {/* Breadcrumb */}
-          <div className="flex items-center gap-1.5 text-xs">
+          <div className="flex items-center gap-1 text-[11px] sm:text-xs">
             <span className={`font-semibold hidden sm:inline ${
               isDark ? 'text-slate-400' : 'text-slate-500'
             }`}>
@@ -168,7 +168,7 @@ export default function Header({
               {breadcrumb.category}
             </span>
             <ChevronRight className="w-3.5 h-3.5 text-slate-500 hidden md:inline" />
-            <span className={`font-bold truncate max-w-[130px] sm:max-w-none ${
+            <span className={`font-bold truncate max-w-[80px] xs:max-w-[120px] sm:max-w-none ${
               isDark ? 'text-cyan-400' : 'text-blue-600'
             }`}>
               {breadcrumb.page}
@@ -177,9 +177,9 @@ export default function Header({
         </div>
 
         {/* Center Section: Global Search */}
-        <div className="flex-1 max-w-md relative" ref={containerRef}>
+        <div className="flex-1 max-w-[120px] xs:max-w-[170px] sm:max-w-md relative" ref={containerRef}>
           <div className="relative">
-            <Search className={`w-4 h-4 absolute left-3 top-1/2 -translate-y-1/2 pointer-events-none ${
+            <Search className={`w-3.5 h-3.5 sm:w-4 sm:h-4 absolute left-2.5 sm:left-3 top-1/2 -translate-y-1/2 pointer-events-none ${
               isDark ? 'text-slate-400' : 'text-slate-400'
             }`} />
             <input
@@ -188,8 +188,8 @@ export default function Header({
               value={query}
               onChange={(e) => setQuery(e.target.value)}
               onFocus={() => setIsFocused(true)}
-              placeholder="Search syllabus, Python, SQL..."
-              className={`w-full pl-9 pr-16 py-1.5 text-xs rounded-xl border focus:outline-none focus:ring-2 transition-all ${
+              placeholder="Search syllabus..."
+              className={`w-full pl-8 sm:pl-9 pr-7 sm:pr-16 py-1.5 text-[11px] sm:text-xs rounded-xl border focus:outline-none focus:ring-2 transition-all ${
                 isDark 
                   ? 'bg-[#101A33] border-slate-700/80 text-white placeholder-slate-400 focus:ring-cyan-500/40 focus:border-cyan-500' 
                   : 'bg-slate-100 border-slate-200 text-slate-900 placeholder-slate-400 focus:ring-blue-500/40 focus:border-blue-500'
@@ -198,7 +198,7 @@ export default function Header({
             {query ? (
               <button
                 onClick={() => setQuery('')}
-                className="absolute right-3 top-1/2 -translate-y-1/2 p-0.5 text-slate-400 hover:text-slate-200 cursor-pointer"
+                className="absolute right-2 sm:right-3 top-1/2 -translate-y-1/2 p-0.5 text-slate-400 hover:text-slate-200 cursor-pointer"
               >
                 <X className="w-3.5 h-3.5" />
               </button>

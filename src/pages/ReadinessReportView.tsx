@@ -274,32 +274,32 @@ export default function ReadinessReportView({
   const monthsEstimate = Math.max(1, Math.round((missingCount * 0.75)));
 
   return (
-    <div className={`w-full h-full overflow-y-auto p-4 sm:p-6 lg:p-8 space-y-8 transition-colors ${
+    <div className={`w-full h-full overflow-y-auto p-3.5 sm:p-6 lg:p-8 space-y-6 sm:space-y-8 transition-colors ${
       isDark ? 'bg-[#080E1E] text-slate-100' : 'bg-slate-50 text-slate-800'
     }`} id="readiness-report-screen">
       
       {/* Celebration banner when score >= 75% */}
       {showCelebration && (
-        <div className="max-w-6xl mx-auto p-4 rounded-2xl bg-gradient-to-r from-emerald-600/30 via-cyan-600/30 to-blue-600/30 border border-emerald-500/60 shadow-xl flex items-center justify-between gap-4 animate-celebrate">
+        <div className="max-w-6xl mx-auto p-3.5 sm:p-4 rounded-2xl bg-gradient-to-r from-emerald-600/30 via-cyan-600/30 to-blue-600/30 border border-emerald-500/60 shadow-xl flex items-center justify-between gap-3 animate-celebrate">
           <div className="flex items-center gap-3">
-            <div className="w-10 h-10 rounded-xl bg-emerald-500/20 border border-emerald-400/40 flex items-center justify-center text-emerald-400 font-bold text-lg shrink-0">
+            <div className="w-9 h-9 sm:w-10 sm:h-10 rounded-xl bg-emerald-500/20 border border-emerald-400/40 flex items-center justify-center text-emerald-400 font-bold text-base sm:text-lg shrink-0">
               🎉
             </div>
             <div>
-              <h3 className="font-extrabold text-sm text-white flex items-center gap-1.5">
+              <h3 className="font-extrabold text-xs sm:text-sm text-white flex items-center gap-1.5 flex-wrap">
                 Outstanding High Market Alignment!
                 <span className="text-[10px] px-2 py-0.5 rounded-full bg-emerald-500 text-slate-950 font-black">
                   {report.readiness_score}% Readiness
                 </span>
               </h3>
-              <p className="text-xs text-emerald-200 mt-0.5">
+              <p className="text-[11px] sm:text-xs text-emerald-200 mt-0.5">
                 Your syllabus fundamentals place you in the top tier of candidates for {report.target_role || targetRole}.
               </p>
             </div>
           </div>
           <button
             onClick={() => setShowCelebration(false)}
-            className="text-xs font-semibold text-slate-400 hover:text-white px-2 py-1 cursor-pointer"
+            className="text-xs font-semibold text-slate-400 hover:text-white px-2 py-1 cursor-pointer shrink-0"
           >
             Dismiss
           </button>
@@ -307,39 +307,43 @@ export default function ReadinessReportView({
       )}
 
       {/* Top Banner: Actions & Navigation */}
-      <div className="max-w-6xl mx-auto flex flex-col md:flex-row items-start md:items-center justify-between gap-4 border-b border-slate-700/40 pb-6">
+      <div className={`max-w-6xl mx-auto flex flex-col md:flex-row items-start md:items-center justify-between gap-4 border-b pb-4 sm:pb-6 ${
+        isDark ? 'border-slate-800' : 'border-slate-200'
+      }`}>
         <div>
-          <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full text-xs font-semibold mb-2 border shadow-xs bg-cyan-950/60 border-cyan-700/50 text-cyan-300">
-            <Sparkles className="w-3.5 h-3.5 text-cyan-400" />
-            Piece 3 & 5 • Scikit-learn Cosine Similarity & ReportLab PDF
+          <div className={`inline-flex items-center gap-1.5 sm:gap-2 px-2.5 sm:px-3 py-1 rounded-full text-[11px] sm:text-xs font-semibold mb-2 border shadow-xs ${
+            isDark ? 'bg-cyan-950/70 border-cyan-700/50 text-cyan-300' : 'bg-cyan-100 border-cyan-300 text-cyan-900 font-bold'
+          }`}>
+            <Sparkles className="w-3.5 h-3.5 text-cyan-400 shrink-0" />
+            <span className="truncate">Piece 3 & 5 • Scikit-learn Cosine Similarity & ReportLab PDF</span>
           </div>
-          <h1 className="text-2xl sm:text-3xl font-extrabold tracking-tight">
+          <h1 className="text-xl sm:text-2xl md:text-3xl font-extrabold tracking-tight">
             Readiness Report: {report.target_role || targetRole}
           </h1>
-          <p className={`text-xs sm:text-sm mt-1 max-w-2xl ${isDark ? 'text-slate-400' : 'text-slate-600'}`}>
+          <p className={`text-xs sm:text-sm mt-1 max-w-2xl leading-relaxed ${isDark ? 'text-slate-400' : 'text-slate-600'}`}>
             Real-time computed competency evaluation against {report.target_role || targetRole} job postings. Includes cosine similarity scoring, 3D orbital galaxy, and AI career roadmap.
           </p>
         </div>
 
-        <div className="flex items-center gap-2.5 flex-wrap">
+        <div className="flex items-center gap-2.5 flex-wrap w-full md:w-auto">
           {/* Change inputs button */}
           <button
             onClick={onGoToForm}
-            className={`flex items-center gap-1.5 px-3.5 py-2 rounded-xl border text-xs font-semibold transition-all cursor-pointer ${
+            className={`flex-1 md:flex-none flex items-center justify-center gap-1.5 px-3.5 py-2.5 rounded-xl border text-xs font-semibold transition-all cursor-pointer ${
               isDark 
                 ? 'bg-[#0E1A38] hover:bg-slate-800 text-slate-200 border-slate-700' 
                 : 'bg-white hover:bg-slate-100 text-slate-800 border-slate-300'
             }`}
           >
             <RotateCcw className="w-3.5 h-3.5" />
-            Edit Skills
+            <span>Edit Skills</span>
           </button>
 
           {/* Elevated Download PDF Report button */}
           <button
             onClick={handleDownloadPdf}
             disabled={isDownloadingPdf}
-            className="flex items-center gap-2 px-5 py-2.5 rounded-xl font-bold text-xs uppercase tracking-wider bg-gradient-to-r from-emerald-500 to-teal-600 hover:from-emerald-400 hover:to-teal-500 text-slate-950 shadow-lg shadow-emerald-500/25 hover:shadow-emerald-500/40 hover:scale-[1.02] active:scale-[0.98] transition-all cursor-pointer disabled:opacity-50"
+            className="flex-1 md:flex-none flex items-center justify-center gap-2 px-5 py-2.5 rounded-xl font-bold text-xs uppercase tracking-wider bg-gradient-to-r from-emerald-500 to-teal-600 hover:from-emerald-400 hover:to-teal-500 text-slate-950 shadow-lg shadow-emerald-500/25 hover:shadow-emerald-500/40 hover:scale-[1.02] active:scale-[0.98] transition-all cursor-pointer disabled:opacity-50"
           >
             {isDownloadingPdf ? (
               <>
@@ -356,13 +360,13 @@ export default function ReadinessReportView({
         </div>
       </div>
 
-      <div className="max-w-6xl mx-auto space-y-8">
+      <div className="max-w-6xl mx-auto space-y-6 sm:space-y-8">
         
         {/* ROW 1: Animated Circular Progress Ring + Matched / Missing Skill Pill Cards */}
-        <div className="grid grid-cols-1 lg:grid-cols-12 gap-6">
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-4 sm:gap-6">
           
           {/* Animated Circular Progress Card (4 cols) */}
-          <div className={`lg:col-span-4 rounded-2xl border p-6 flex flex-col items-center justify-center text-center shadow-xl transition-all ${
+          <div className={`lg:col-span-4 rounded-2xl border p-4 sm:p-6 flex flex-col items-center justify-center text-center shadow-xl transition-all ${
             isDark ? 'bg-[#0E1A38] border-slate-750' : 'bg-white border-slate-200'
           }`}>
             <span className="text-[11px] font-bold uppercase tracking-wider text-cyan-400 mb-2">
@@ -370,7 +374,7 @@ export default function ReadinessReportView({
             </span>
 
             {/* Circular Ring SVG */}
-            <div className="relative w-44 h-44 my-2 flex items-center justify-center">
+            <div className="relative w-36 h-36 sm:w-44 sm:h-44 my-2 flex items-center justify-center">
               <svg className="w-full h-full transform -rotate-90" viewBox="0 0 140 140">
                 {/* Track Circle */}
                 <circle
@@ -398,11 +402,17 @@ export default function ReadinessReportView({
 
               {/* Centered Number Display */}
               <div className="absolute inset-0 flex flex-col items-center justify-center">
-                <span className="text-4xl font-extrabold tracking-tight">
+                <span className={`text-3xl sm:text-4xl font-extrabold tracking-tight ${
+                  isDark ? 'text-white' : 'text-slate-900'
+                }`}>
                   {animatedScore}%
                 </span>
                 <span className={`text-[10px] font-bold uppercase tracking-widest mt-0.5 ${
-                  animatedScore >= 75 ? 'text-emerald-400' : animatedScore >= 50 ? 'text-cyan-400' : 'text-amber-400'
+                  animatedScore >= 75 
+                    ? isDark ? 'text-emerald-400' : 'text-emerald-700' 
+                    : animatedScore >= 50 
+                      ? isDark ? 'text-cyan-400' : 'text-blue-700' 
+                      : isDark ? 'text-amber-400' : 'text-amber-800'
                 }`}>
                   {animatedScore >= 75 ? 'Market Ready' : animatedScore >= 50 ? 'Moderate Gap' : 'Critical Gap'}
                 </span>
@@ -413,17 +423,17 @@ export default function ReadinessReportView({
             <div className={`mt-3 w-full py-2 px-3 rounded-xl border flex items-center justify-between text-xs ${
               isDark ? 'bg-[#080E1E] border-slate-800' : 'bg-slate-50 border-slate-200'
             }`}>
-              <span className="text-slate-400 flex items-center gap-1.5">
-                <Clock className="w-3.5 h-3.5 text-cyan-400" />
+              <span className={`flex items-center gap-1.5 ${isDark ? 'text-slate-400' : 'text-slate-600'}`}>
+                <Clock className={`w-3.5 h-3.5 ${isDark ? 'text-cyan-400' : 'text-blue-600'}`} />
                 Time-to-Ready:
               </span>
-              <span className="font-bold text-cyan-300">
+              <span className={`font-bold ${isDark ? 'text-cyan-300' : 'text-blue-700'}`}>
                 ~{monthsEstimate} {monthsEstimate === 1 ? 'Month' : 'Months'}
               </span>
             </div>
 
             {/* Scikit-learn note */}
-            <p className="text-[10px] text-slate-400 mt-2">
+            <p className={`text-[10px] mt-2 ${isDark ? 'text-slate-400' : 'text-slate-600'}`}>
               Computed via Scikit-learn TF-IDF cosine similarity in Python service.
             </p>
           </div>
@@ -432,23 +442,27 @@ export default function ReadinessReportView({
           <div className="lg:col-span-8 grid grid-cols-1 md:grid-cols-2 gap-4">
             
             {/* Matched Skills Card */}
-            <div className={`rounded-2xl border p-5 flex flex-col justify-between shadow-lg ${
+            <div className={`rounded-2xl border p-5 flex flex-col justify-between shadow-lg transition-colors ${
               isDark ? 'bg-[#0E1A38] border-slate-750' : 'bg-white border-slate-200'
             }`}>
               <div>
                 <div className="flex items-center justify-between mb-3">
                   <div className="flex items-center gap-2">
-                    <div className="w-7 h-7 rounded-lg bg-emerald-500/20 border border-emerald-400/40 flex items-center justify-center text-emerald-400">
+                    <div className={`w-7 h-7 rounded-lg flex items-center justify-center ${
+                      isDark ? 'bg-emerald-500/20 border border-emerald-400/40 text-emerald-400' : 'bg-emerald-100 border border-emerald-300 text-emerald-700'
+                    }`}>
                       <CheckCircle2 className="w-4 h-4" />
                     </div>
                     <div>
-                      <h3 className="font-bold text-sm text-emerald-400">Matched Competencies</h3>
-                      <p className={`text-[10px] ${isDark ? 'text-slate-400' : 'text-slate-500'}`}>
+                      <h3 className={`font-bold text-sm ${isDark ? 'text-emerald-400' : 'text-emerald-700'}`}>Matched Competencies</h3>
+                      <p className={`text-[10px] ${isDark ? 'text-slate-400' : 'text-slate-600'}`}>
                         Covered by your college coursework
                       </p>
                     </div>
                   </div>
-                  <span className="text-xs font-extrabold px-2 py-0.5 rounded-full bg-emerald-500/20 text-emerald-300 border border-emerald-500/30">
+                  <span className={`text-xs font-extrabold px-2 py-0.5 rounded-full border ${
+                    isDark ? 'bg-emerald-500/20 text-emerald-300 border-emerald-500/30' : 'bg-emerald-100 text-emerald-900 border-emerald-300'
+                  }`}>
                     {report.matched_skills?.length || 0} Matched
                   </span>
                 </div>
@@ -459,9 +473,13 @@ export default function ReadinessReportView({
                     report.matched_skills.map((skill) => (
                       <span
                         key={skill}
-                        className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full text-xs font-semibold bg-emerald-950/60 text-emerald-300 border border-emerald-500/50 shadow-xs"
+                        className={`inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full text-xs font-semibold shadow-xs ${
+                          isDark 
+                            ? 'bg-emerald-950/60 text-emerald-300 border border-emerald-500/50' 
+                            : 'bg-emerald-100 text-emerald-950 border border-emerald-300 font-bold'
+                        }`}
                       >
-                        <CheckCircle2 className="w-3.5 h-3.5 text-emerald-400 shrink-0" />
+                        <CheckCircle2 className={`w-3.5 h-3.5 shrink-0 ${isDark ? 'text-emerald-400' : 'text-emerald-700'}`} />
                         {skill}
                       </span>
                     ))
@@ -471,29 +489,35 @@ export default function ReadinessReportView({
                 </div>
               </div>
 
-              <div className="pt-4 mt-4 border-t border-slate-700/30 text-[11px] text-slate-400">
+              <div className={`pt-4 mt-4 border-t text-[11px] ${
+                isDark ? 'border-slate-700/30 text-slate-400' : 'border-slate-200 text-slate-600'
+              }`}>
                 ✅ These foundational skills give you an immediate springboard into modern commercial tech stacks.
               </div>
             </div>
 
             {/* Missing Skills Card */}
-            <div className={`rounded-2xl border p-5 flex flex-col justify-between shadow-lg ${
+            <div className={`rounded-2xl border p-5 flex flex-col justify-between shadow-lg transition-colors ${
               isDark ? 'bg-[#0E1A38] border-slate-750' : 'bg-white border-slate-200'
             }`}>
               <div>
                 <div className="flex items-center justify-between mb-3">
                   <div className="flex items-center gap-2">
-                    <div className="w-7 h-7 rounded-lg bg-amber-500/20 border border-amber-400/40 flex items-center justify-center text-amber-400">
+                    <div className={`w-7 h-7 rounded-lg flex items-center justify-center ${
+                      isDark ? 'bg-amber-500/20 border border-amber-400/40 text-amber-400' : 'bg-amber-100 border border-amber-300 text-amber-700'
+                    }`}>
                       <AlertTriangle className="w-4 h-4" />
                     </div>
                     <div>
-                      <h3 className="font-bold text-sm text-amber-400">Missing Market Skills</h3>
-                      <p className={`text-[10px] ${isDark ? 'text-slate-400' : 'text-slate-500'}`}>
+                      <h3 className={`font-bold text-sm ${isDark ? 'text-amber-400' : 'text-amber-800'}`}>Missing Market Skills</h3>
+                      <p className={`text-[10px] ${isDark ? 'text-slate-400' : 'text-slate-600'}`}>
                         Ranked by recruiter priority
                       </p>
                     </div>
                   </div>
-                  <span className="text-xs font-extrabold px-2 py-0.5 rounded-full bg-amber-500/20 text-amber-300 border border-amber-500/30">
+                  <span className={`text-xs font-extrabold px-2 py-0.5 rounded-full border ${
+                    isDark ? 'bg-amber-500/20 text-amber-300 border-amber-500/30' : 'bg-amber-100 text-amber-900 border-amber-300'
+                  }`}>
                     {report.missing_skills?.length || 0} Gaps
                   </span>
                 </div>
@@ -504,19 +528,25 @@ export default function ReadinessReportView({
                     report.missing_skills.map((skill) => (
                       <span
                         key={skill}
-                        className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full text-xs font-semibold bg-amber-950/60 text-amber-300 border border-amber-500/50 shadow-xs"
+                        className={`inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full text-xs font-semibold shadow-xs ${
+                          isDark 
+                            ? 'bg-amber-950/60 text-amber-300 border border-amber-500/50' 
+                            : 'bg-amber-100 text-amber-950 border border-amber-300 font-bold'
+                        }`}
                       >
-                        <AlertTriangle className="w-3.5 h-3.5 text-amber-400 shrink-0" />
+                        <AlertTriangle className={`w-3.5 h-3.5 shrink-0 ${isDark ? 'text-amber-400' : 'text-amber-700'}`} />
                         {skill}
                       </span>
                     ))
                   ) : (
-                    <span className="text-xs text-emerald-400 font-semibold">Zero critical gaps remaining!</span>
+                    <span className="text-xs text-emerald-600 font-bold">Zero critical gaps remaining!</span>
                   )}
                 </div>
               </div>
 
-              <div className="pt-4 mt-4 border-t border-slate-700/30 text-[11px] text-slate-400">
+              <div className={`pt-4 mt-4 border-t text-[11px] ${
+                isDark ? 'border-slate-700/30 text-slate-400' : 'border-slate-200 text-slate-600'
+              }`}>
                 ⚠️ Highly demanded by employers. Bridge these using the 5-section AI roadmap below.
               </div>
             </div>
@@ -528,19 +558,21 @@ export default function ReadinessReportView({
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-6">
           
           {/* Radar Chart (6 cols) */}
-          <div className={`lg:col-span-6 rounded-2xl border p-5 shadow-xl flex flex-col justify-between ${
+          <div className={`lg:col-span-6 rounded-2xl border p-5 shadow-xl flex flex-col justify-between transition-colors ${
             isDark ? 'bg-[#0E1A38] border-slate-750' : 'bg-white border-slate-200'
           }`}>
             <div className="flex items-center justify-between mb-2">
               <div>
-                <h3 className="font-bold text-sm text-cyan-400">
+                <h3 className={`font-bold text-sm ${isDark ? 'text-cyan-400' : 'text-blue-700'}`}>
                   Radar Analysis: Student vs Market Demand
                 </h3>
-                <p className={`text-[11px] ${isDark ? 'text-slate-400' : 'text-slate-500'}`}>
+                <p className={`text-[11px] ${isDark ? 'text-slate-400' : 'text-slate-600'}`}>
                   Evaluating 5 core competency dimensions
                 </p>
               </div>
-              <span className="text-[10px] px-2 py-0.5 rounded bg-blue-500/10 text-blue-300 border border-blue-500/20 font-bold">
+              <span className={`text-[10px] px-2 py-0.5 rounded border font-bold ${
+                isDark ? 'bg-blue-500/10 text-blue-300 border-blue-500/20' : 'bg-blue-100 text-blue-900 border-blue-300'
+              }`}>
                 5 Dimensions
               </span>
             </div>
@@ -548,12 +580,12 @@ export default function ReadinessReportView({
             <div className="w-full h-72 sm:h-80">
               <ResponsiveContainer width="100%" height="100%">
                 <RadarChart data={report.radar_categories || []} margin={{ top: 20, right: 30, bottom: 20, left: 30 }}>
-                  <PolarGrid stroke={isDark ? '#1E293B' : '#E2E8F0'} strokeDasharray="3 3" />
+                  <PolarGrid stroke={isDark ? '#1E293B' : '#CBD5E1'} strokeDasharray="3 3" />
                   <PolarAngleAxis 
                     dataKey="category" 
-                    tick={{ fill: isDark ? '#94A3B8' : '#475569', fontSize: 11, fontWeight: 600 }} 
+                    tick={{ fill: isDark ? '#94A3B8' : '#1E293B', fontSize: 11, fontWeight: 700 }} 
                   />
-                  <PolarRadiusAxis angle={30} domain={[0, 100]} stroke={isDark ? '#475569' : '#CBD5E1'} tick={false} />
+                  <PolarRadiusAxis angle={30} domain={[0, 100]} stroke={isDark ? '#475569' : '#94A3B8'} tick={false} />
                   
                   {/* Market Demand Series */}
                   <Radar
@@ -569,8 +601,8 @@ export default function ReadinessReportView({
                   <Radar
                     name="Your Skills"
                     dataKey="student_score"
-                    stroke="#00F0FF"
-                    fill="#00F0FF"
+                    stroke={isDark ? "#00F0FF" : "#0284C7"}
+                    fill={isDark ? "#00F0FF" : "#0284C7"}
                     fillOpacity={0.4}
                     strokeWidth={2.5}
                   />
@@ -581,7 +613,8 @@ export default function ReadinessReportView({
                       borderColor: isDark ? '#334155' : '#CBD5E1',
                       borderRadius: '12px',
                       fontSize: '12px',
-                      color: isDark ? '#F8FAFC' : '#0F172A'
+                      color: isDark ? '#F8FAFC' : '#0F172A',
+                      boxShadow: '0 10px 15px -3px rgba(0, 0, 0, 0.1)'
                     }} 
                   />
                   <Legend 
@@ -591,26 +624,28 @@ export default function ReadinessReportView({
               </ResponsiveContainer>
             </div>
 
-            <p className="text-[10px] text-slate-400 text-center">
-              Cyan perimeter highlights your demonstrated areas; Amber reveals commercial industry expectation.
+            <p className={`text-[10px] text-center ${isDark ? 'text-slate-400' : 'text-slate-600'}`}>
+              Blue perimeter highlights your demonstrated areas; Amber reveals commercial industry expectation.
             </p>
           </div>
 
           {/* Three.js Interactive 3D Galaxy (6 cols) */}
-          <div className={`lg:col-span-6 rounded-2xl border p-5 shadow-xl flex flex-col justify-between ${
+          <div className={`lg:col-span-6 rounded-2xl border p-5 shadow-xl flex flex-col justify-between transition-colors ${
             isDark ? 'bg-[#0E1A38] border-slate-750' : 'bg-white border-slate-200'
           }`}>
             <div className="flex items-center justify-between mb-2">
               <div>
-                <h3 className="font-bold text-sm text-white flex items-center gap-1.5">
-                  <Sparkles className="w-4 h-4 text-cyan-400" />
+                <h3 className={`font-bold text-sm flex items-center gap-1.5 ${isDark ? 'text-white' : 'text-slate-900'}`}>
+                  <Sparkles className={`w-4 h-4 ${isDark ? 'text-cyan-400' : 'text-blue-600'}`} />
                   Three.js 3D Skill Galaxy
                 </h3>
-                <p className={`text-[11px] ${isDark ? 'text-slate-400' : 'text-slate-500'}`}>
+                <p className={`text-[11px] ${isDark ? 'text-slate-400' : 'text-slate-600'}`}>
                   Drag to rotate • Click nodes to inspect competency status
                 </p>
               </div>
-              <span className="text-[10px] px-2 py-0.5 rounded bg-cyan-500/20 text-cyan-300 font-bold border border-cyan-400/30">
+              <span className={`text-[10px] px-2 py-0.5 rounded border font-bold ${
+                isDark ? 'bg-cyan-500/20 text-cyan-300 border-cyan-400/30' : 'bg-blue-100 text-blue-900 border-blue-300'
+              }`}>
                 Live WebGL
               </span>
             </div>
@@ -624,17 +659,19 @@ export default function ReadinessReportView({
               />
             </div>
 
-            <div className="flex items-center justify-between text-[11px] text-slate-400 pt-2">
+            <div className={`flex items-center justify-between text-[11px] pt-2 ${
+              isDark ? 'text-slate-400' : 'text-slate-600'
+            }`}>
               <span className="flex items-center gap-1.5">
-                <span className="w-2.5 h-2.5 rounded-full bg-emerald-400 inline-block" />
+                <span className="w-2.5 h-2.5 rounded-full bg-emerald-500 inline-block" />
                 Matched Nodes
               </span>
               <span className="flex items-center gap-1.5">
-                <span className="w-2.5 h-2.5 rounded-full bg-amber-400 inline-block" />
+                <span className="w-2.5 h-2.5 rounded-full bg-amber-500 inline-block" />
                 Missing Skill Nodes
               </span>
               <span className="flex items-center gap-1.5">
-                <span className="w-2.5 h-2.5 rounded-full bg-blue-500 inline-block" />
+                <span className="w-2.5 h-2.5 rounded-full bg-blue-600 inline-block" />
                 Target Role Nucleus
               </span>
             </div>
@@ -643,20 +680,24 @@ export default function ReadinessReportView({
         </div>
 
         {/* ROW 3: AI-Generated 5-Section Roadmap Accordion */}
-        <div className={`rounded-2xl border p-6 sm:p-8 shadow-xl ${
+        <div className={`rounded-2xl border p-6 sm:p-8 shadow-xl transition-colors ${
           isDark ? 'bg-[#0E1A38] border-slate-750' : 'bg-white border-slate-200'
         }`}>
-          <div className="flex items-center justify-between mb-6 border-b border-slate-700/40 pb-4">
+          <div className={`flex items-center justify-between mb-6 pb-4 border-b ${
+            isDark ? 'border-slate-700/40' : 'border-slate-200'
+          }`}>
             <div>
-              <h2 className="text-lg font-bold text-white flex items-center gap-2">
-                <Layers className="w-5 h-5 text-cyan-400" />
+              <h2 className={`text-lg font-bold flex items-center gap-2 ${isDark ? 'text-white' : 'text-slate-900'}`}>
+                <Layers className={`w-5 h-5 ${isDark ? 'text-cyan-400' : 'text-blue-600'}`} />
                 AI Career Architect Roadmap (5 Strategic Pillars)
               </h2>
-              <p className={`text-xs ${isDark ? 'text-slate-400' : 'text-slate-500'}`}>
+              <p className={`text-xs ${isDark ? 'text-slate-400' : 'text-slate-600'}`}>
                 Structured non-linear pathway bridging your academic baseline to {report.target_role || targetRole}
               </p>
             </div>
-            <span className="text-[10px] font-bold uppercase tracking-wider text-cyan-400 bg-cyan-950/80 border border-cyan-800 px-2.5 py-1 rounded-lg">
+            <span className={`text-[10px] font-bold uppercase tracking-wider px-2.5 py-1 rounded-lg border ${
+              isDark ? 'text-cyan-400 bg-cyan-950/80 border-cyan-800' : 'text-blue-900 bg-blue-100 border-blue-300'
+            }`}>
               LLM Synthesized
             </span>
           </div>
@@ -664,28 +705,36 @@ export default function ReadinessReportView({
           <div className="space-y-4">
             
             {/* Section 1: Reality Check */}
-            <div className={`rounded-xl border overflow-hidden ${
+            <div className={`rounded-xl border overflow-hidden transition-colors ${
               isDark ? 'bg-[#080E1E] border-slate-800' : 'bg-slate-50 border-slate-200'
             }`}>
               <button
                 onClick={() => toggleSection('reality')}
-                className="w-full p-4 flex items-center justify-between text-left cursor-pointer hover:bg-slate-800/40 transition-colors"
+                className={`w-full p-4 flex items-center justify-between text-left cursor-pointer transition-colors ${
+                  isDark ? 'hover:bg-slate-800/40' : 'hover:bg-slate-100'
+                }`}
               >
                 <div className="flex items-center gap-3">
-                  <div className="w-7 h-7 rounded-lg bg-red-500/20 text-red-400 flex items-center justify-center font-bold text-xs">
+                  <div className={`w-7 h-7 rounded-lg flex items-center justify-center font-bold text-xs ${
+                    isDark ? 'bg-red-500/20 text-red-400' : 'bg-red-100 text-red-700'
+                  }`}>
                     1
                   </div>
                   <div>
-                    <h3 className="font-bold text-sm text-red-300">Pillar 1: Reality Check</h3>
-                    <p className="text-[11px] text-slate-400">Current university syllabus vs commercial recruiter realities</p>
+                    <h3 className={`font-bold text-sm ${isDark ? 'text-red-300' : 'text-red-800 font-extrabold'}`}>Pillar 1: Reality Check</h3>
+                    <p className={`text-[11px] ${isDark ? 'text-slate-400' : 'text-slate-600'}`}>Current university syllabus vs commercial recruiter realities</p>
                   </div>
                 </div>
                 {openSections.reality ? <ChevronUp className="w-4 h-4 text-slate-400" /> : <ChevronDown className="w-4 h-4 text-slate-400" />}
               </button>
 
               {openSections.reality && (
-                <div className="p-4 pt-0 text-xs leading-relaxed text-slate-300 border-t border-slate-800/50 mt-2">
-                  <p className="p-3 rounded-lg bg-red-950/20 border border-red-900/30 text-red-200">
+                <div className={`p-4 pt-0 text-xs leading-relaxed border-t mt-2 ${
+                  isDark ? 'border-slate-800/50 text-slate-300' : 'border-slate-200 text-slate-800'
+                }`}>
+                  <p className={`p-3 rounded-lg border ${
+                    isDark ? 'bg-red-950/20 border-red-900/30 text-red-200' : 'bg-red-50 border-red-200 text-red-950 font-medium'
+                  }`}>
                     {report.ai_roadmap?.gap_summary || `Your university curriculum provides a theoretical baseline in procedural logic, but lacks active industry pipelines such as modern frameworks, automated CI/CD workflows, and containerized cloud runtimes expected for ${report.target_role || targetRole}.`}
                   </p>
                 </div>
@@ -693,28 +742,36 @@ export default function ReadinessReportView({
             </div>
 
             {/* Section 2: Bridge Strategy */}
-            <div className={`rounded-xl border overflow-hidden ${
+            <div className={`rounded-xl border overflow-hidden transition-colors ${
               isDark ? 'bg-[#080E1E] border-slate-800' : 'bg-slate-50 border-slate-200'
             }`}>
               <button
                 onClick={() => toggleSection('bridge')}
-                className="w-full p-4 flex items-center justify-between text-left cursor-pointer hover:bg-slate-800/40 transition-colors"
+                className={`w-full p-4 flex items-center justify-between text-left cursor-pointer transition-colors ${
+                  isDark ? 'hover:bg-slate-800/40' : 'hover:bg-slate-100'
+                }`}
               >
                 <div className="flex items-center gap-3">
-                  <div className="w-7 h-7 rounded-lg bg-cyan-500/20 text-cyan-400 flex items-center justify-center font-bold text-xs">
+                  <div className={`w-7 h-7 rounded-lg flex items-center justify-center font-bold text-xs ${
+                    isDark ? 'bg-cyan-500/20 text-cyan-400' : 'bg-blue-100 text-blue-700'
+                  }`}>
                     2
                   </div>
                   <div>
-                    <h3 className="font-bold text-sm text-cyan-300">Pillar 2: Bridge Strategy</h3>
-                    <p className="text-[11px] text-slate-400">How to convert college theory into commercial practical execution</p>
+                    <h3 className={`font-bold text-sm ${isDark ? 'text-cyan-300' : 'text-blue-800 font-extrabold'}`}>Pillar 2: Bridge Strategy</h3>
+                    <p className={`text-[11px] ${isDark ? 'text-slate-400' : 'text-slate-600'}`}>How to convert college theory into commercial practical execution</p>
                   </div>
                 </div>
                 {openSections.bridge ? <ChevronUp className="w-4 h-4 text-slate-400" /> : <ChevronDown className="w-4 h-4 text-slate-400" />}
               </button>
 
               {openSections.bridge && (
-                <div className="p-4 pt-0 text-xs leading-relaxed text-slate-300 border-t border-slate-800/50 mt-2">
-                  <p className="p-3 rounded-lg bg-cyan-950/20 border border-cyan-900/30 text-cyan-200">
+                <div className={`p-4 pt-0 text-xs leading-relaxed border-t mt-2 ${
+                  isDark ? 'border-slate-800/50 text-slate-300' : 'border-slate-200 text-slate-800'
+                }`}>
+                  <p className={`p-3 rounded-lg border ${
+                    isDark ? 'bg-cyan-950/20 border-cyan-900/30 text-cyan-200' : 'bg-blue-50 border-blue-200 text-blue-950 font-medium'
+                  }`}>
                     {report.ai_roadmap?.bridge_strategy || `Re-purpose your conceptual foundation in variables, control structures, and SQL into building production APIs with modern framework libraries (FastAPI/Express) and relational PostgreSQL database pools.`}
                   </p>
                 </div>
@@ -722,38 +779,48 @@ export default function ReadinessReportView({
             </div>
 
             {/* Section 3: Accelerated Non-Linear Roadmap */}
-            <div className={`rounded-xl border overflow-hidden ${
+            <div className={`rounded-xl border overflow-hidden transition-colors ${
               isDark ? 'bg-[#080E1E] border-slate-800' : 'bg-slate-50 border-slate-200'
             }`}>
               <button
                 onClick={() => toggleSection('milestones')}
-                className="w-full p-4 flex items-center justify-between text-left cursor-pointer hover:bg-slate-800/40 transition-colors"
+                className={`w-full p-4 flex items-center justify-between text-left cursor-pointer transition-colors ${
+                  isDark ? 'hover:bg-slate-800/40' : 'hover:bg-slate-100'
+                }`}
               >
                 <div className="flex items-center gap-3">
-                  <div className="w-7 h-7 rounded-lg bg-emerald-500/20 text-emerald-400 flex items-center justify-center font-bold text-xs">
+                  <div className={`w-7 h-7 rounded-lg flex items-center justify-center font-bold text-xs ${
+                    isDark ? 'bg-emerald-500/20 text-emerald-400' : 'bg-emerald-100 text-emerald-700'
+                  }`}>
                     3
                   </div>
                   <div>
-                    <h3 className="font-bold text-sm text-emerald-300">Pillar 3: Accelerated Non-Linear Roadmap</h3>
-                    <p className="text-[11px] text-slate-400">Milestone-by-milestone actionable project plan</p>
+                    <h3 className={`font-bold text-sm ${isDark ? 'text-emerald-300' : 'text-emerald-800 font-extrabold'}`}>Pillar 3: Accelerated Non-Linear Roadmap</h3>
+                    <p className={`text-[11px] ${isDark ? 'text-slate-400' : 'text-slate-600'}`}>Milestone-by-milestone actionable project plan</p>
                   </div>
                 </div>
                 {openSections.milestones ? <ChevronUp className="w-4 h-4 text-slate-400" /> : <ChevronDown className="w-4 h-4 text-slate-400" />}
               </button>
 
               {openSections.milestones && (
-                <div className="p-4 pt-0 space-y-2 border-t border-slate-800/50 mt-2">
+                <div className={`p-4 pt-0 space-y-2 border-t mt-2 ${
+                  isDark ? 'border-slate-800/50' : 'border-slate-200'
+                }`}>
                   {(report.ai_roadmap?.milestones || [
                     "Milestone 1: Terminal Mastery & Modern Git Collaboration Workflows",
                     "Milestone 2: Modular API Development with FastAPI / Express & Relational Schema Design",
                     "Milestone 3: Containerization with Docker & Multi-stage Builds",
                     "Milestone 4: Production Cloud Deployment with Automated CI/CD Testing"
                   ]).map((m, idx) => (
-                    <div key={idx} className="flex items-start gap-2.5 p-2.5 rounded-lg bg-[#0E1A38]/50 border border-slate-800 text-xs">
-                      <span className="w-5 h-5 rounded-full bg-emerald-500/20 text-emerald-400 flex items-center justify-center font-bold text-[10px] shrink-0 mt-0.5">
+                    <div key={idx} className={`flex items-start gap-2.5 p-2.5 rounded-lg border text-xs ${
+                      isDark ? 'bg-[#0E1A38]/50 border-slate-800 text-slate-200' : 'bg-white border-slate-200 text-slate-800 shadow-2xs'
+                    }`}>
+                      <span className={`w-5 h-5 rounded-full flex items-center justify-center font-bold text-[10px] shrink-0 mt-0.5 ${
+                        isDark ? 'bg-emerald-500/20 text-emerald-400' : 'bg-emerald-100 text-emerald-800'
+                      }`}>
                         {idx + 1}
                       </span>
-                      <span className="text-slate-200">{m}</span>
+                      <span>{m}</span>
                     </div>
                   ))}
                 </div>
@@ -761,34 +828,42 @@ export default function ReadinessReportView({
             </div>
 
             {/* Section 4: What NOT to Do */}
-            <div className={`rounded-xl border overflow-hidden ${
+            <div className={`rounded-xl border overflow-hidden transition-colors ${
               isDark ? 'bg-[#080E1E] border-slate-800' : 'bg-slate-50 border-slate-200'
             }`}>
               <button
                 onClick={() => toggleSection('avoid')}
-                className="w-full p-4 flex items-center justify-between text-left cursor-pointer hover:bg-slate-800/40 transition-colors"
+                className={`w-full p-4 flex items-center justify-between text-left cursor-pointer transition-colors ${
+                  isDark ? 'hover:bg-slate-800/40' : 'hover:bg-slate-100'
+                }`}
               >
                 <div className="flex items-center gap-3">
-                  <div className="w-7 h-7 rounded-lg bg-amber-500/20 text-amber-400 flex items-center justify-center font-bold text-xs">
+                  <div className={`w-7 h-7 rounded-lg flex items-center justify-center font-bold text-xs ${
+                    isDark ? 'bg-amber-500/20 text-amber-400' : 'bg-amber-100 text-amber-700'
+                  }`}>
                     4
                   </div>
                   <div>
-                    <h3 className="font-bold text-sm text-amber-300">Pillar 4: What NOT To Do</h3>
-                    <p className="text-[11px] text-slate-400">Common student pitfalls and time-wasting traps to avoid</p>
+                    <h3 className={`font-bold text-sm ${isDark ? 'text-amber-300' : 'text-amber-800 font-extrabold'}`}>Pillar 4: What NOT To Do</h3>
+                    <p className={`text-[11px] ${isDark ? 'text-slate-400' : 'text-slate-600'}`}>Common student pitfalls and time-wasting traps to avoid</p>
                   </div>
                 </div>
                 {openSections.avoid ? <ChevronUp className="w-4 h-4 text-slate-400" /> : <ChevronDown className="w-4 h-4 text-slate-400" />}
               </button>
 
               {openSections.avoid && (
-                <div className="p-4 pt-0 space-y-2 border-t border-slate-800/50 mt-2">
+                <div className={`p-4 pt-0 space-y-2 border-t mt-2 ${
+                  isDark ? 'border-slate-800/50' : 'border-slate-200'
+                }`}>
                   {(report.ai_roadmap?.avoid_list || [
                     "Do NOT spend weeks hand-writing code exams or memorizing boilerplate syntax.",
                     "Do NOT stay in tutorial hell watching 40-hour videos without writing custom code.",
                     "Do NOT build generic calculator/to-do apps—recruiters want authenticated, data-backed apps."
                   ]).map((a, idx) => (
-                    <div key={idx} className="flex items-start gap-2.5 p-2.5 rounded-lg bg-amber-950/20 border border-amber-900/30 text-xs text-amber-200">
-                      <span className="font-bold text-amber-400 shrink-0">❌</span>
+                    <div key={idx} className={`flex items-start gap-2.5 p-2.5 rounded-lg border text-xs ${
+                      isDark ? 'bg-amber-950/20 border-amber-900/30 text-amber-200' : 'bg-amber-50 border-amber-200 text-amber-950'
+                    }`}>
+                      <span className="font-bold text-amber-600 shrink-0">❌</span>
                       <span>{a}</span>
                     </div>
                   ))}
@@ -797,34 +872,42 @@ export default function ReadinessReportView({
             </div>
 
             {/* Section 5: Job-Readiness Checklist */}
-            <div className={`rounded-xl border overflow-hidden ${
+            <div className={`rounded-xl border overflow-hidden transition-colors ${
               isDark ? 'bg-[#080E1E] border-slate-800' : 'bg-slate-50 border-slate-200'
             }`}>
               <button
                 onClick={() => toggleSection('checklist')}
-                className="w-full p-4 flex items-center justify-between text-left cursor-pointer hover:bg-slate-800/40 transition-colors"
+                className={`w-full p-4 flex items-center justify-between text-left cursor-pointer transition-colors ${
+                  isDark ? 'hover:bg-slate-800/40' : 'hover:bg-slate-100'
+                }`}
               >
                 <div className="flex items-center gap-3">
-                  <div className="w-7 h-7 rounded-lg bg-purple-500/20 text-purple-400 flex items-center justify-center font-bold text-xs">
+                  <div className={`w-7 h-7 rounded-lg flex items-center justify-center font-bold text-xs ${
+                    isDark ? 'bg-purple-500/20 text-purple-400' : 'bg-purple-100 text-purple-700'
+                  }`}>
                     5
                   </div>
                   <div>
-                    <h3 className="font-bold text-sm text-purple-300">Pillar 5: Job-Readiness Checklist</h3>
-                    <p className="text-[11px] text-slate-400">Final hiring criteria required to apply with confidence</p>
+                    <h3 className={`font-bold text-sm ${isDark ? 'text-purple-300' : 'text-purple-800 font-extrabold'}`}>Pillar 5: Job-Readiness Checklist</h3>
+                    <p className={`text-[11px] ${isDark ? 'text-slate-400' : 'text-slate-600'}`}>Final hiring criteria required to apply with confidence</p>
                   </div>
                 </div>
                 {openSections.checklist ? <ChevronUp className="w-4 h-4 text-slate-400" /> : <ChevronDown className="w-4 h-4 text-slate-400" />}
               </button>
 
               {openSections.checklist && (
-                <div className="p-4 pt-0 space-y-2 border-t border-slate-800/50 mt-2">
+                <div className={`p-4 pt-0 space-y-2 border-t mt-2 ${
+                  isDark ? 'border-slate-800/50' : 'border-slate-200'
+                }`}>
                   {(report.ai_roadmap?.checklist || [
                     "Active GitHub account with at least 1 deployed Full-Stack application featuring API documentation.",
                     "Solid understanding of relational database normalization, indexing, and join optimization.",
                     "Demonstrated comfort discussing technical trade-offs in system architecture."
                   ]).map((c, idx) => (
-                    <div key={idx} className="flex items-start gap-2.5 p-2.5 rounded-lg bg-purple-950/20 border border-purple-900/30 text-xs text-purple-200">
-                      <span className="font-bold text-purple-400 shrink-0">✓</span>
+                    <div key={idx} className={`flex items-start gap-2.5 p-2.5 rounded-lg border text-xs ${
+                      isDark ? 'bg-purple-950/20 border-purple-900/30 text-purple-200' : 'bg-purple-50 border-purple-200 text-purple-950'
+                    }`}>
+                      <span className="font-bold text-purple-600 shrink-0">✓</span>
                       <span>{c}</span>
                     </div>
                   ))}
@@ -836,20 +919,22 @@ export default function ReadinessReportView({
         </div>
 
         {/* Video Learning Embed Cards for Missing Skills */}
-        <div className={`rounded-2xl border p-6 shadow-xl ${
+        <div className={`rounded-2xl border p-6 shadow-xl transition-colors ${
           isDark ? 'bg-[#0E1A38] border-slate-750' : 'bg-white border-slate-200'
         }`}>
           <div className="flex items-center justify-between mb-4">
             <div>
-              <h3 className="font-bold text-sm text-white flex items-center gap-2">
-                <Video className="w-4 h-4 text-cyan-400" />
+              <h3 className={`font-bold text-sm flex items-center gap-2 ${isDark ? 'text-white' : 'text-slate-900'}`}>
+                <Video className={`w-4 h-4 ${isDark ? 'text-cyan-400' : 'text-blue-600'}`} />
                 Targeted Video Learning Modules
               </h3>
-              <p className={`text-[11px] ${isDark ? 'text-slate-400' : 'text-slate-500'}`}>
+              <p className={`text-[11px] ${isDark ? 'text-slate-400' : 'text-slate-600'}`}>
                 Free, vetted professional courses mapped directly to your missing skills
               </p>
             </div>
-            <span className="text-[10px] text-cyan-300 font-bold bg-cyan-950 px-2 py-0.5 rounded border border-cyan-800">
+            <span className={`text-[10px] font-bold px-2 py-0.5 rounded border ${
+              isDark ? 'text-cyan-300 bg-cyan-950 border-cyan-800' : 'text-blue-900 bg-blue-100 border-blue-300'
+            }`}>
               Vetted Resources
             </span>
           </div>
@@ -858,24 +943,26 @@ export default function ReadinessReportView({
             {Object.entries(RECOMMENDED_VIDEO_COURSES).slice(0, 3).map(([skill, video]) => (
               <div 
                 key={skill}
-                className={`rounded-xl border overflow-hidden flex flex-col justify-between ${
+                className={`rounded-xl border overflow-hidden flex flex-col justify-between transition-colors ${
                   isDark ? 'bg-[#080E1E] border-slate-800' : 'bg-slate-50 border-slate-200'
                 }`}
               >
-                <div className="p-3 bg-slate-900 border-b border-slate-800 flex items-center justify-between">
-                  <span className="text-xs font-bold text-cyan-400">{skill}</span>
-                  <span className="text-[10px] text-slate-400">{video.duration}</span>
+                <div className={`p-3 border-b flex items-center justify-between ${
+                  isDark ? 'bg-slate-900 border-slate-800' : 'bg-slate-100 border-slate-200'
+                }`}>
+                  <span className={`text-xs font-bold ${isDark ? 'text-cyan-400' : 'text-blue-700'}`}>{skill}</span>
+                  <span className={`text-[10px] ${isDark ? 'text-slate-400' : 'text-slate-500'}`}>{video.duration}</span>
                 </div>
                 <div className="p-4 flex flex-col justify-between flex-1 gap-3">
                   <div>
-                    <h4 className="font-semibold text-xs text-white leading-snug">{video.title}</h4>
-                    <p className="text-[10px] text-slate-400 mt-1">Instructor: {video.provider}</p>
+                    <h4 className={`font-semibold text-xs leading-snug ${isDark ? 'text-white' : 'text-slate-900'}`}>{video.title}</h4>
+                    <p className={`text-[10px] mt-1 ${isDark ? 'text-slate-400' : 'text-slate-600'}`}>Instructor: {video.provider}</p>
                   </div>
                   <a
                     href={video.url}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="flex items-center justify-center gap-1.5 px-3 py-2 rounded-lg bg-blue-600/20 hover:bg-blue-600/40 text-blue-300 text-xs font-semibold border border-blue-500/30 transition-colors"
+                    className="flex items-center justify-center gap-1.5 px-3 py-2 rounded-lg bg-blue-600 hover:bg-blue-500 text-white text-xs font-semibold shadow-xs transition-colors"
                   >
                     <span>Watch Course</span>
                     <ExternalLink className="w-3 h-3" />
@@ -890,16 +977,16 @@ export default function ReadinessReportView({
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
           
           {/* Role Comparison Mode */}
-          <div className={`rounded-2xl border p-5 shadow-xl ${
+          <div className={`rounded-2xl border p-5 shadow-xl transition-colors ${
             isDark ? 'bg-[#0E1A38] border-slate-750' : 'bg-white border-slate-200'
           }`}>
             <div className="flex items-center justify-between mb-3">
               <div>
-                <h3 className="font-bold text-sm text-cyan-400 flex items-center gap-1.5">
+                <h3 className={`font-bold text-sm flex items-center gap-1.5 ${isDark ? 'text-cyan-400' : 'text-blue-700'}`}>
                   <Sliders className="w-4 h-4" />
                   Role Comparison Mode
                 </h3>
-                <p className={`text-[10px] ${isDark ? 'text-slate-400' : 'text-slate-500'}`}>
+                <p className={`text-[10px] ${isDark ? 'text-slate-400' : 'text-slate-600'}`}>
                   Compare readiness side-by-side: Which job are you closest to?
                 </p>
               </div>
@@ -907,7 +994,7 @@ export default function ReadinessReportView({
 
             <div className="space-y-3 pt-2">
               <div className="flex items-center gap-2">
-                <span className="text-xs font-bold text-slate-300">Compare with:</span>
+                <span className={`text-xs font-bold ${isDark ? 'text-slate-300' : 'text-slate-700'}`}>Compare with:</span>
                 <select
                   value={comparisonRole}
                   onChange={(e) => handleCompareRoles(e.target.value)}
@@ -927,12 +1014,12 @@ export default function ReadinessReportView({
               <div className="space-y-2 pt-2">
                 <div>
                   <div className="flex justify-between text-xs font-bold mb-1">
-                    <span className="text-cyan-400">{report.target_role || targetRole} (Primary)</span>
-                    <span>{report.readiness_score}%</span>
+                    <span className={isDark ? 'text-cyan-400' : 'text-blue-700'}>{report.target_role || targetRole} (Primary)</span>
+                    <span className={isDark ? 'text-white' : 'text-slate-900'}>{report.readiness_score}%</span>
                   </div>
-                  <div className="w-full h-2 rounded-full bg-slate-800 overflow-hidden">
+                  <div className={`w-full h-2 rounded-full overflow-hidden ${isDark ? 'bg-slate-800' : 'bg-slate-200'}`}>
                     <div 
-                      className="h-full bg-cyan-400 rounded-full transition-all duration-1000"
+                      className={`h-full rounded-full transition-all duration-1000 ${isDark ? 'bg-cyan-400' : 'bg-blue-600'}`}
                       style={{ width: `${report.readiness_score}%` }}
                     />
                   </div>
@@ -940,19 +1027,19 @@ export default function ReadinessReportView({
 
                 <div>
                   <div className="flex justify-between text-xs font-bold mb-1">
-                    <span className="text-amber-400">{comparisonRole}</span>
-                    <span>{isComparing ? 'Computing...' : `${compareScore !== null ? compareScore : 55}%`}</span>
+                    <span className={isDark ? 'text-amber-400' : 'text-amber-700'}>{comparisonRole}</span>
+                    <span className={isDark ? 'text-white' : 'text-slate-900'}>{isComparing ? 'Computing...' : `${compareScore !== null ? compareScore : 55}%`}</span>
                   </div>
-                  <div className="w-full h-2 rounded-full bg-slate-800 overflow-hidden">
+                  <div className={`w-full h-2 rounded-full overflow-hidden ${isDark ? 'bg-slate-800' : 'bg-slate-200'}`}>
                     <div 
-                      className="h-full bg-amber-400 rounded-full transition-all duration-1000"
+                      className={`h-full rounded-full transition-all duration-1000 ${isDark ? 'bg-amber-400' : 'bg-amber-500'}`}
                       style={{ width: `${compareScore !== null ? compareScore : 55}%` }}
                     />
                   </div>
                 </div>
               </div>
 
-              <p className="text-[11px] text-slate-400 pt-1">
+              <p className={`text-[11px] pt-1 ${isDark ? 'text-slate-400' : 'text-slate-600'}`}>
                 💡 You have a higher affinity score for {report.readiness_score >= (compareScore || 55) ? (report.target_role || targetRole) : comparisonRole}.
               </p>
             </div>

@@ -95,21 +95,11 @@ export default function Sidebar({
         <div className="flex flex-col gap-5 p-5 overflow-y-auto">
           {/* Brand Header */}
           <div className="flex items-center justify-between pt-1">
-            <div className="flex items-center gap-3">
-              <div className="w-10 h-10 rounded-xl bg-gradient-to-tr from-cyan-500 to-blue-600 flex items-center justify-center shadow-lg shadow-cyan-500/20 font-black text-white text-lg">
-                S
-              </div>
-              <div className="flex flex-col">
-                <span className="font-extrabold text-lg tracking-tight text-white flex items-center gap-1.5">
-                  SERVIXOO
-                  <span className="text-[10px] uppercase font-bold tracking-widest text-cyan-400 bg-cyan-950/80 border border-cyan-800/50 px-1.5 py-0.2 rounded">
-                    PRO
-                  </span>
-                </span>
-                <span className="text-[10px] text-slate-400 tracking-wide">
-                  Labour Market & Curriculum AI
-                </span>
-              </div>
+            <div className="flex items-center gap-2">
+              <Logo theme="dark" hideSubtext={true} className="h-10 w-36" />
+              <span className="text-[10px] uppercase font-bold tracking-widest text-cyan-400 bg-cyan-950/80 border border-cyan-800/50 px-1.5 py-0.5 rounded shrink-0">
+                PRO
+              </span>
             </div>
             
             {/* Close button for mobile */}
@@ -241,7 +231,7 @@ export default function Sidebar({
           </nav>
         </div>
 
-        {/* Footer Area: Dark Mode Toggle & System Stamp */}
+        {/* Footer Area: Dark Mode Toggle */}
         <div className="p-4 border-t border-slate-800/80 bg-[#060B18] flex flex-col gap-3">
           <div className="flex items-center justify-between px-2">
             <span className="text-xs text-slate-300 font-medium">Theme Mode</span>
@@ -262,10 +252,6 @@ export default function Sidebar({
                 </>
               )}
             </button>
-          </div>
-
-          <div className="text-[10px] text-slate-400 text-center font-mono pt-1">
-            Firebase Auth • Firestore • Scikit-Learn
           </div>
         </div>
       </aside>

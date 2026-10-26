@@ -150,9 +150,13 @@ export default function SkillTrends() {
     }`} id="skill-trends-page">
       
       {/* Header */}
-      <div className="max-w-6xl mx-auto flex flex-col md:flex-row items-start md:items-center justify-between gap-4 border-b border-slate-700/40 pb-6">
+      <div className={`max-w-6xl mx-auto flex flex-col md:flex-row items-start md:items-center justify-between gap-4 border-b pb-6 ${
+        isDark ? 'border-slate-800' : 'border-slate-200'
+      }`}>
         <div>
-          <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full text-xs font-semibold mb-2 border shadow-xs bg-cyan-950/60 border-cyan-700/50 text-cyan-300">
+          <div className={`inline-flex items-center gap-2 px-3 py-1 rounded-full text-xs font-semibold mb-2 border shadow-xs ${
+            isDark ? 'bg-cyan-950/70 border-cyan-700/50 text-cyan-300' : 'bg-cyan-100 border-cyan-300 text-cyan-900 font-bold'
+          }`}>
             <Sparkles className="w-3.5 h-3.5 text-cyan-400" />
             Machine Learning Predictive Analytics & Obsolescence Guard
           </div>
@@ -171,15 +175,19 @@ export default function SkillTrends() {
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-6">
           
           {/* Sidebar Skill Selector (4 cols) */}
-          <div className={`lg:col-span-4 rounded-2xl border p-5 shadow-xl flex flex-col justify-between ${
+          <div className={`lg:col-span-4 rounded-2xl border p-5 shadow-xl flex flex-col justify-between transition-colors ${
             isDark ? 'bg-[#0E1A38] border-slate-750' : 'bg-white border-slate-200'
           }`}>
             <div>
-              <div className="flex items-center justify-between mb-3 pb-2 border-b border-slate-700/40">
-                <span className="font-bold text-xs uppercase tracking-wider text-cyan-400">
+              <div className={`flex items-center justify-between mb-3 pb-2 border-b ${
+                isDark ? 'border-slate-700/40' : 'border-slate-200'
+              }`}>
+                <span className={`font-bold text-xs uppercase tracking-wider ${
+                  isDark ? 'text-cyan-400' : 'text-blue-700'
+                }`}>
                   Tracked In-Demand Skills
                 </span>
-                <span className="text-[10px] text-slate-400">Click to forecast</span>
+                <span className={`text-[10px] ${isDark ? 'text-slate-400' : 'text-slate-500'}`}>Click to forecast</span>
               </div>
 
               {loading ? (
@@ -198,28 +206,30 @@ export default function SkillTrends() {
                         onClick={() => setSelectedSkillId(skill.id)}
                         className={`w-full text-left p-3 rounded-xl border transition-all text-xs flex items-center justify-between cursor-pointer ${
                           isSelected
-                            ? 'bg-gradient-to-r from-cyan-500/20 to-blue-600/20 border-cyan-400 text-white font-bold shadow-sm'
+                            ? isDark
+                              ? 'bg-gradient-to-r from-cyan-500/20 to-blue-600/20 border-cyan-400 text-white font-bold shadow-sm'
+                              : 'bg-blue-50 border-blue-500 text-slate-900 font-bold shadow-xs'
                             : isDark
                               ? 'bg-[#080E1E] border-slate-800 hover:bg-slate-800 text-slate-300'
-                              : 'bg-slate-50 border-slate-200 hover:bg-slate-100 text-slate-700'
+                              : 'bg-slate-50 border-slate-200 hover:bg-slate-100 text-slate-800'
                         }`}
                       >
                         <div className="flex flex-col">
                           <span className="truncate max-w-[140px]">{skill.name}</span>
-                          <span className="text-[10px] text-slate-400 font-normal">{skill.category}</span>
+                          <span className={`text-[10px] font-normal ${isDark ? 'text-slate-400' : 'text-slate-500'}`}>{skill.category}</span>
                         </div>
                         <div className="flex items-center gap-1.5">
                           <span className={`text-[10px] px-2 py-0.5 rounded-full font-extrabold ${
                             isSelected
-                              ? 'bg-cyan-500 text-slate-950'
-                              : 'bg-cyan-500/20 text-cyan-300'
+                              ? isDark ? 'bg-cyan-500 text-slate-950' : 'bg-blue-600 text-white'
+                              : isDark ? 'bg-cyan-500/20 text-cyan-300' : 'bg-blue-100 text-blue-800'
                           }`}>
                             {skill.demand_score}%
                           </span>
                           {skill.trend_direction === 'UP' ? (
-                            <ArrowUpRight className="w-3.5 h-3.5 text-emerald-400" />
+                            <ArrowUpRight className={`w-3.5 h-3.5 ${isDark ? 'text-emerald-400' : 'text-emerald-600'}`} />
                           ) : (
-                            <ArrowDownRight className="w-3.5 h-3.5 text-amber-400" />
+                            <ArrowDownRight className={`w-3.5 h-3.5 ${isDark ? 'text-amber-400' : 'text-amber-600'}`} />
                           )}
                         </div>
                       </button>
@@ -229,28 +239,38 @@ export default function SkillTrends() {
               )}
             </div>
 
-            <div className="pt-3 border-t border-slate-700/40 text-[10px] text-slate-400">
+            <div className={`pt-3 border-t text-[10px] ${
+              isDark ? 'border-slate-700/40 text-slate-400' : 'border-slate-200 text-slate-500'
+            }`}>
               ⚡ Forecasts computed via Python LinearRegression microservice.
             </div>
           </div>
 
           {/* Area Chart View (8 cols) */}
-          <div className={`lg:col-span-8 rounded-2xl border p-6 shadow-xl flex flex-col justify-between ${
+          <div className={`lg:col-span-8 rounded-2xl border p-6 shadow-xl flex flex-col justify-between transition-colors ${
             isDark ? 'bg-[#0E1A38] border-slate-750' : 'bg-white border-slate-200'
           }`}>
             <div>
-              <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2 mb-4 pb-3 border-b border-slate-700/40">
+              <div className={`flex flex-col sm:flex-row sm:items-center justify-between gap-2 mb-4 pb-3 border-b ${
+                isDark ? 'border-slate-700/40' : 'border-slate-200'
+              }`}>
                 <div>
-                  <h3 className="font-extrabold text-base text-white flex items-center gap-2">
-                    <TrendingUp className="w-4 h-4 text-cyan-400" />
+                  <h3 className={`font-extrabold text-base flex items-center gap-2 ${
+                    isDark ? 'text-white' : 'text-slate-900'
+                  }`}>
+                    <TrendingUp className={`w-4 h-4 ${isDark ? 'text-cyan-400' : 'text-blue-600'}`} />
                     Demand Trajectory: {selectedSkill?.name || 'Selected Competency'}
                   </h3>
-                  <p className={`text-[11px] ${isDark ? 'text-slate-400' : 'text-slate-500'}`}>
+                  <p className={`text-[11px] ${isDark ? 'text-slate-400' : 'text-slate-600'}`}>
                     Historical (M-5 to Current) & Predictive Forecast (F+1 to F+3)
                   </p>
                 </div>
                 <div className="flex items-center gap-2">
-                  <span className="text-[10px] px-2.5 py-1 rounded-full bg-emerald-500/20 text-emerald-300 font-bold border border-emerald-500/30 flex items-center gap-1">
+                  <span className={`text-[10px] px-2.5 py-1 rounded-full font-bold border flex items-center gap-1 ${
+                    isDark 
+                      ? 'bg-emerald-500/20 text-emerald-300 border-emerald-500/30' 
+                      : 'bg-emerald-100 text-emerald-900 border-emerald-300'
+                  }`}>
                     <Sparkles className="w-3 h-3" />
                     Trend: {selectedSkill?.trend_direction || 'UP'}
                   </span>
@@ -263,25 +283,25 @@ export default function SkillTrends() {
                   <AreaChart data={chartData} margin={{ top: 10, right: 20, left: -20, bottom: 0 }}>
                     <defs>
                       <linearGradient id="historicalGrad" x1="0" y1="0" x2="0" y2="1">
-                        <stop offset="5%" stopColor="#00F0FF" stopOpacity={0.4} />
-                        <stop offset="95%" stopColor="#00F0FF" stopOpacity={0.0} />
+                        <stop offset="5%" stopColor={isDark ? "#00F0FF" : "#0284C7"} stopOpacity={0.4} />
+                        <stop offset="95%" stopColor={isDark ? "#00F0FF" : "#0284C7"} stopOpacity={0.0} />
                       </linearGradient>
                       <linearGradient id="forecastGrad" x1="0" y1="0" x2="0" y2="1">
-                        <stop offset="5%" stopColor="#10B981" stopOpacity={0.4} />
-                        <stop offset="95%" stopColor="#10B981" stopOpacity={0.0} />
+                        <stop offset="5%" stopColor={isDark ? "#10B981" : "#059669"} stopOpacity={0.4} />
+                        <stop offset="95%" stopColor={isDark ? "#10B981" : "#059669"} stopOpacity={0.0} />
                       </linearGradient>
                     </defs>
 
                     <CartesianGrid strokeDasharray="3 3" stroke={isDark ? '#1E293B' : '#E2E8F0'} />
                     <XAxis 
                       dataKey="period" 
-                      stroke={isDark ? '#94A3B8' : '#64748B'} 
+                      stroke={isDark ? '#94A3B8' : '#334155'} 
                       fontSize={11} 
                       tickLine={false} 
                     />
                     <YAxis 
                       domain={[0, 100]} 
-                      stroke={isDark ? '#94A3B8' : '#64748B'} 
+                      stroke={isDark ? '#94A3B8' : '#334155'} 
                       fontSize={11} 
                       tickLine={false} 
                     />
@@ -293,7 +313,7 @@ export default function SkillTrends() {
                         borderRadius: '12px',
                         fontSize: '12px',
                         color: isDark ? '#F8FAFC' : '#0F172A',
-                        boxShadow: '0 10px 25px -5px rgba(0, 0, 0, 0.3)'
+                        boxShadow: '0 10px 25px -5px rgba(0, 0, 0, 0.15)'
                       }}
                     />
 
@@ -303,7 +323,7 @@ export default function SkillTrends() {
                     <Area
                       type="monotone"
                       dataKey="Historical Score"
-                      stroke="#00F0FF"
+                      stroke={isDark ? "#00F0FF" : "#0284C7"}
                       strokeWidth={2.5}
                       fillOpacity={1}
                       fill="url(#historicalGrad)"
@@ -313,7 +333,7 @@ export default function SkillTrends() {
                     <Area
                       type="monotone"
                       dataKey="Forecasted Score"
-                      stroke="#10B981"
+                      stroke={isDark ? "#10B981" : "#059669"}
                       strokeWidth={2.5}
                       strokeDasharray="4 4"
                       fillOpacity={1}
@@ -324,17 +344,19 @@ export default function SkillTrends() {
               </div>
             </div>
 
-            <div className="flex items-center justify-between text-[11px] text-slate-400 pt-3 border-t border-slate-700/40">
+            <div className={`flex items-center justify-between text-[11px] pt-3 border-t ${
+              isDark ? 'border-slate-700/40 text-slate-400' : 'border-slate-200 text-slate-600'
+            }`}>
               <span className="flex items-center gap-1.5">
-                <span className="w-2.5 h-2.5 rounded-full bg-cyan-400 inline-block" />
+                <span className={`w-2.5 h-2.5 rounded-full inline-block ${isDark ? 'bg-cyan-400' : 'bg-blue-600'}`} />
                 Historical Metric
               </span>
               <span className="flex items-center gap-1.5">
-                <span className="w-2.5 h-2.5 rounded-full bg-emerald-400 inline-block" />
+                <span className={`w-2.5 h-2.5 rounded-full inline-block ${isDark ? 'bg-emerald-400' : 'bg-emerald-600'}`} />
                 Next 3 Periods Forecast
               </span>
               <span className="flex items-center gap-1.5">
-                <span className="w-2.5 h-2.5 rounded-full bg-amber-400 inline-block" />
+                <span className="w-2.5 h-2.5 rounded-full bg-amber-500 inline-block" />
                 Present Baseline
               </span>
             </div>
@@ -343,32 +365,36 @@ export default function SkillTrends() {
         </div>
 
         {/* ROW 2: Skill Decay / Relevance Timer (Flagging Fading vs Rising Skills) */}
-        <div className={`rounded-2xl border p-6 shadow-xl ${
+        <div className={`rounded-2xl border p-6 shadow-xl transition-colors ${
           isDark ? 'bg-[#0E1A38] border-slate-750' : 'bg-white border-slate-200'
         }`}>
-          <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 mb-6 border-b border-slate-700/40 pb-4">
+          <div className={`flex flex-col sm:flex-row sm:items-center justify-between gap-4 mb-6 pb-4 border-b ${
+            isDark ? 'border-slate-700/40' : 'border-slate-200'
+          }`}>
             <div>
               <div className="flex items-center gap-2">
-                <Clock className="w-5 h-5 text-amber-400" />
-                <h3 className="font-extrabold text-base text-white">
+                <Clock className="w-5 h-5 text-amber-500" />
+                <h3 className={`font-extrabold text-base ${isDark ? 'text-white' : 'text-slate-900'}`}>
                   Skill Decay & Obsolescence Radar
                 </h3>
               </div>
-              <p className={`text-xs mt-0.5 ${isDark ? 'text-slate-400' : 'text-slate-500'}`}>
+              <p className={`text-xs mt-0.5 ${isDark ? 'text-slate-400' : 'text-slate-600'}`}>
                 Flagging declining technologies vs hyper-growth competencies to prevent wasted study time
               </p>
             </div>
 
             {/* Filter buttons */}
-            <div className="flex items-center gap-1.5 p-1 rounded-xl bg-slate-900 border border-slate-800">
+            <div className={`flex items-center gap-1.5 p-1 rounded-xl border ${
+              isDark ? 'bg-slate-900 border-slate-800' : 'bg-slate-100 border-slate-200'
+            }`}>
               {(['all', 'rising', 'fading'] as const).map(f => (
                 <button
                   key={f}
                   onClick={() => setDecayFilter(f)}
                   className={`px-3 py-1 text-xs font-semibold rounded-lg capitalize transition-colors cursor-pointer ${
                     decayFilter === f
-                      ? 'bg-cyan-500 text-slate-950 font-bold shadow-xs'
-                      : 'text-slate-400 hover:text-white'
+                      ? isDark ? 'bg-cyan-500 text-slate-950 font-bold shadow-xs' : 'bg-blue-600 text-white font-bold shadow-xs'
+                      : isDark ? 'text-slate-400 hover:text-white' : 'text-slate-600 hover:text-slate-900'
                   }`}
                 >
                   {f}
@@ -381,33 +407,33 @@ export default function SkillTrends() {
             {filteredDecaySkills.map((s, idx) => (
               <div
                 key={idx}
-                className={`p-4 rounded-xl border flex flex-col justify-between ${
+                className={`p-4 rounded-xl border flex flex-col justify-between transition-colors ${
                   s.status === 'fading'
-                    ? 'bg-red-950/20 border-red-900/40'
-                    : 'bg-emerald-950/20 border-emerald-900/40'
+                    ? isDark ? 'bg-red-950/20 border-red-900/40' : 'bg-red-50/80 border-red-200'
+                    : isDark ? 'bg-emerald-950/20 border-emerald-900/40' : 'bg-emerald-50/80 border-emerald-200'
                 }`}
               >
                 <div>
                   <div className="flex items-center justify-between mb-2">
-                    <span className="font-bold text-sm text-white">{s.name}</span>
+                    <span className={`font-bold text-sm ${isDark ? 'text-white' : 'text-slate-900'}`}>{s.name}</span>
                     <span className={`text-[10px] px-2 py-0.5 rounded-full font-extrabold uppercase tracking-wider ${
                       s.status === 'fading'
-                        ? 'bg-red-500/20 text-red-300 border border-red-500/30'
-                        : 'bg-emerald-500/20 text-emerald-300 border border-emerald-500/30'
+                        ? isDark ? 'bg-red-500/20 text-red-300 border border-red-500/30' : 'bg-red-100 text-red-800 border border-red-300 font-bold'
+                        : isDark ? 'bg-emerald-500/20 text-emerald-300 border border-emerald-500/30' : 'bg-emerald-100 text-emerald-800 border border-emerald-300 font-bold'
                     }`}>
                       {s.status === 'fading' ? '⚠️ Fading' : '🚀 Rising'} {s.decayRate}
                     </span>
                   </div>
-                  <p className="text-xs text-slate-300 leading-relaxed mb-3">
+                  <p className={`text-xs leading-relaxed mb-3 ${isDark ? 'text-slate-300' : 'text-slate-700'}`}>
                     {s.reason}
                   </p>
                 </div>
 
-                <div className="pt-3 border-t border-slate-800/80">
-                  <span className="text-[10px] uppercase font-bold text-slate-400 block mb-0.5">
+                <div className={`pt-3 border-t ${isDark ? 'border-slate-800/80' : 'border-slate-200'}`}>
+                  <span className={`text-[10px] uppercase font-bold block mb-0.5 ${isDark ? 'text-slate-400' : 'text-slate-500'}`}>
                     {s.status === 'fading' ? 'Replace with Modern Standard:' : 'Essential Tooling:'}
                   </span>
-                  <span className="text-xs font-semibold text-cyan-300">{s.alternative}</span>
+                  <span className={`text-xs font-semibold ${isDark ? 'text-cyan-300' : 'text-blue-700 font-bold'}`}>{s.alternative}</span>
                 </div>
               </div>
             ))}

@@ -6,6 +6,31 @@
     --font-body: 'Inter', system-ui, -apple-system, sans-serif;
   }
 
+  html {
+    color-scheme: dark light;
+    transition: background-color 0.25s ease, color 0.25s ease;
+  }
+
+  /* Light mode defaults */
+  html:not(.dark) {
+    color-scheme: light;
+  }
+
+  html:not(.dark) body {
+    background-color: #f8fafc;
+    color: #0f172a;
+  }
+
+  /* Dark mode defaults */
+  html.dark {
+    color-scheme: dark;
+  }
+
+  html.dark body {
+    background-color: #060b18;
+    color: #f8fafc;
+  }
+
   body {
     font-family: var(--font-body);
     margin: 0;

@@ -117,16 +117,13 @@ export default function AuthPage({ onGuestContinue }: AuthPageProps) {
         
         {/* Brand Banner */}
         <div className="text-center space-y-2">
-          <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full text-xs font-semibold mb-2 border shadow-xs bg-cyan-950/70 border-cyan-700/50 text-cyan-300">
-            <Sparkles className="w-3.5 h-3.5 text-cyan-400" />
-            Firebase Authentication & Firestore Data Sync
-          </div>
-
           <div className="flex items-center justify-center gap-3">
             <div className="w-10 h-10 rounded-xl bg-gradient-to-tr from-cyan-500 to-blue-600 flex items-center justify-center shadow-lg shadow-cyan-500/20 font-black text-white text-lg">
               S
             </div>
-            <h1 className="text-2xl sm:text-3xl font-extrabold tracking-tight text-white">
+            <h1 className={`text-2xl sm:text-3xl font-extrabold tracking-tight ${
+              isDark ? 'text-white' : 'text-slate-900'
+            }`}>
               SERVIXOO
             </h1>
           </div>
@@ -142,14 +139,16 @@ export default function AuthPage({ onGuestContinue }: AuthPageProps) {
         }`}>
           
           {/* Mode Tabs */}
-          <div className="grid grid-cols-2 p-1 rounded-xl bg-slate-900 border border-slate-800 mb-6">
+          <div className={`grid grid-cols-2 p-1 rounded-xl border mb-6 ${
+            isDark ? 'bg-slate-900 border-slate-800' : 'bg-slate-100 border-slate-200'
+          }`}>
             <button
               type="button"
               onClick={() => { setMode('signin'); setError(null); }}
               className={`py-2 text-xs font-bold rounded-lg transition-all cursor-pointer ${
                 mode === 'signin'
                   ? 'bg-cyan-500 text-slate-950 shadow-sm'
-                  : 'text-slate-400 hover:text-white'
+                  : isDark ? 'text-slate-400 hover:text-white' : 'text-slate-600 hover:text-slate-900'
               }`}
             >
               Sign In
@@ -160,7 +159,7 @@ export default function AuthPage({ onGuestContinue }: AuthPageProps) {
               className={`py-2 text-xs font-bold rounded-lg transition-all cursor-pointer ${
                 mode === 'signup'
                   ? 'bg-cyan-500 text-slate-950 shadow-sm'
-                  : 'text-slate-400 hover:text-white'
+                  : isDark ? 'text-slate-400 hover:text-white' : 'text-slate-600 hover:text-slate-900'
               }`}
             >
               Sign Up & Register
@@ -182,7 +181,9 @@ export default function AuthPage({ onGuestContinue }: AuthPageProps) {
             {mode === 'signup' && (
               <>
                 <div className="space-y-1.5">
-                  <label className="block text-[11px] font-bold uppercase tracking-wider text-slate-300">
+                  <label className={`block text-[11px] font-bold uppercase tracking-wider ${
+                    isDark ? 'text-slate-300' : 'text-slate-700'
+                  }`}>
                     Full Name
                   </label>
                   <div className="relative">
@@ -204,7 +205,9 @@ export default function AuthPage({ onGuestContinue }: AuthPageProps) {
 
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
                   <div className="space-y-1.5">
-                    <label className="block text-[11px] font-bold uppercase tracking-wider text-slate-300">
+                    <label className={`block text-[11px] font-bold uppercase tracking-wider ${
+                      isDark ? 'text-slate-300' : 'text-slate-700'
+                    }`}>
                       College / University
                     </label>
                     <input
@@ -221,7 +224,9 @@ export default function AuthPage({ onGuestContinue }: AuthPageProps) {
                   </div>
 
                   <div className="space-y-1.5">
-                    <label className="block text-[11px] font-bold uppercase tracking-wider text-slate-300">
+                    <label className={`block text-[11px] font-bold uppercase tracking-wider ${
+                      isDark ? 'text-slate-300' : 'text-slate-700'
+                    }`}>
                       Current Course
                     </label>
                     <select
@@ -242,7 +247,9 @@ export default function AuthPage({ onGuestContinue }: AuthPageProps) {
                 </div>
 
                 <div className="space-y-1.5">
-                  <label className="block text-[11px] font-bold uppercase tracking-wider text-slate-300">
+                  <label className={`block text-[11px] font-bold uppercase tracking-wider ${
+                    isDark ? 'text-slate-300' : 'text-slate-700'
+                  }`}>
                     Target Dream Job
                   </label>
                   <select
@@ -265,7 +272,9 @@ export default function AuthPage({ onGuestContinue }: AuthPageProps) {
 
             {/* Email Field */}
             <div className="space-y-1.5">
-              <label className="block text-[11px] font-bold uppercase tracking-wider text-slate-300">
+              <label className={`block text-[11px] font-bold uppercase tracking-wider ${
+                isDark ? 'text-slate-300' : 'text-slate-700'
+              }`}>
                 Email Address
               </label>
               <div className="relative">
@@ -287,7 +296,9 @@ export default function AuthPage({ onGuestContinue }: AuthPageProps) {
 
             {/* Password Field */}
             <div className="space-y-1.5">
-              <label className="block text-[11px] font-bold uppercase tracking-wider text-slate-300">
+              <label className={`block text-[11px] font-bold uppercase tracking-wider ${
+                isDark ? 'text-slate-300' : 'text-slate-700'
+              }`}>
                 Password
               </label>
               <div className="relative">
@@ -329,9 +340,9 @@ export default function AuthPage({ onGuestContinue }: AuthPageProps) {
 
           {/* Divider */}
           <div className="my-5 flex items-center gap-3">
-            <div className="flex-1 h-px bg-slate-800" />
-            <span className="text-[10px] uppercase font-bold text-slate-500">or</span>
-            <div className="flex-1 h-px bg-slate-800" />
+            <div className={`flex-1 h-px ${isDark ? 'bg-slate-800' : 'bg-slate-200'}`} />
+            <span className={`text-[10px] uppercase font-bold ${isDark ? 'text-slate-500' : 'text-slate-400'}`}>or</span>
+            <div className={`flex-1 h-px ${isDark ? 'bg-slate-800' : 'bg-slate-200'}`} />
           </div>
 
           {/* Google Sign-In */}
@@ -354,50 +365,13 @@ export default function AuthPage({ onGuestContinue }: AuthPageProps) {
             <span>Continue with Google</span>
           </button>
 
-          {/* Quick Demo Pre-fill for Hackathon Evaluators */}
-          <div className="mt-5 pt-4 border-t border-slate-800/80">
-            <div className="flex items-center justify-between text-[10px] text-slate-400 mb-2">
-              <span className="font-semibold uppercase tracking-wider flex items-center gap-1">
-                <Zap className="w-3 h-3 text-cyan-400" />
-                Quick Demo Profile Pre-fill:
-              </span>
-            </div>
-            <div className="grid grid-cols-2 gap-2">
-              <button
-                type="button"
-                onClick={() => handleQuickDemoFill('student_cs')}
-                className="p-2 rounded-lg bg-slate-900 hover:bg-slate-850 border border-slate-800 text-[11px] font-medium text-cyan-300 text-left cursor-pointer transition-colors"
-              >
-                Rahul Sharma (CS)
-              </button>
-              <button
-                type="button"
-                onClick={() => handleQuickDemoFill('student_bba')}
-                className="p-2 rounded-lg bg-slate-900 hover:bg-slate-850 border border-slate-800 text-[11px] font-medium text-amber-300 text-left cursor-pointer transition-colors"
-              >
-                Priya Patel (BBA)
-              </button>
-            </div>
-          </div>
-
-          {/* Optional Guest Bypass */}
-          {onGuestContinue && (
-            <div className="mt-4 text-center">
-              <button
-                type="button"
-                onClick={onGuestContinue}
-                className="text-xs text-slate-400 hover:text-slate-200 underline cursor-pointer"
-              >
-                Continue as Guest Explorer
-              </button>
-            </div>
-          )}
-
         </div>
 
         {/* Security badge */}
-        <div className="text-center flex items-center justify-center gap-2 text-[11px] text-slate-300">
-          <ShieldCheck className="w-3.5 h-3.5 text-emerald-400" />
+        <div className={`text-center flex items-center justify-center gap-2 text-[11px] ${
+          isDark ? 'text-slate-300' : 'text-slate-600'
+        }`}>
+          <ShieldCheck className="w-3.5 h-3.5 text-emerald-500" />
           <span>Secured via Firebase Auth & Firestore Rules (servixoo-831b0)</span>
         </div>
 

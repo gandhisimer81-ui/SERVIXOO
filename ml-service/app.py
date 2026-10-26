@@ -44,6 +44,7 @@ try:
     from reportlab.platypus import SimpleDocTemplate, Paragraph, Spacer, Table, TableStyle, HRFlowable
     from reportlab.lib.styles import getSampleStyleSheet, ParagraphStyle
     from reportlab.lib import colors
+    from reportlab.graphics.shapes import Drawing, Polygon, Circle, String, Group
     HAS_REPORTLAB = True
     print("Servixoo ML: Loaded ReportLab PDF generator successfully!")
 except Exception as e:
@@ -331,21 +332,49 @@ def trend_forecast():
     except Exception as e:
         return jsonify({'error': str(e), 'forecast': [70.0, 75.0, 80.0]}), 500
 
-@app.route('/ml/student-pdf', methods=['POST'])
+@app.route('/ml/student-pdf', methods=['GET', 'POST'])
 def student_pdf():
     """
     Generates a clean ReportLab PDF containing:
-    student's inputs, readiness score, matched/missing skills, and the AI roadmap text.
+    student's inputs, readiness score, matched/missing skills, official Servixoo logo, and the AI roadmap text.
     """
     try:
-        data = request.get_json() or {}
-        
-        student_skills = data.get('student_skills', [])
-        dream_job = data.get('dream_job', 'Python Developer')
-        readiness_score = data.get('readiness_score', 50)
-        matched_skills = data.get('matched_skills', [])
-        missing_skills = data.get('missing_skills', [])
-        ai_roadmap = data.get('ai_roadmap', {})
+        data = {}
+        if hasattr(request, 'method') and request.method == 'GET':
+            args = getattr(request, 'args', {}) or {}
+            student_skills = args.get('student_skills', '').split(',') if args.get('student_skills') else ['Python', 'SQL', 'Git']
+            dream_job = args.get('dream_job') or args.get('dreamJob') or args.get('target_role') or 'Python Developer'
+            try:
+                readiness_score = float(args.get('readiness_score', 75))
+            except Exception:
+                readiness_score = 75.0
+            matched_skills = args.get('matched_skills', '').split(',') if args.get('matched_skills') else ['Python', 'SQL', 'Git']
+            missing_skills = args.get('missing_skills', '').split(',') if args.get('missing_skills') else ['FastAPI', 'Docker', 'REST APIs', 'pytest']
+            ai_roadmap = {}
+        else:
+            if hasattr(request, 'get_json'):
+                data = request.get_json(silent=True) or {}
+            elif hasattr(request, '_data'):
+                data = getattr(request, '_data', {}) or {}
+
+            student_skills = data.get('student_skills', ['Python', 'SQL', 'Git'])
+            dream_job = data.get('dream_job') or data.get('target_role') or 'Python Developer'
+            readiness_score = data.get('readiness_score', 75.0)
+            matched_skills = data.get('matched_skills', ['Python', 'SQL', 'Git'])
+            missing_skills = data.get('missing_skills', ['FastAPI', 'Docker', 'REST APIs', 'pytest'])
+            ai_roadmap = data.get('ai_roadmap', {})
+
+        global HAS_REPORTLAB
+        if not HAS_REPORTLAB:
+            try:
+                from reportlab.lib.pagesizes import letter
+                from reportlab.platypus import SimpleDocTemplate, Paragraph, Spacer, Table, TableStyle, HRFlowable
+                from reportlab.lib.styles import getSampleStyleSheet, ParagraphStyle
+                from reportlab.lib import colors
+                from reportlab.graphics.shapes import Drawing, Polygon, Circle, String, Group
+                HAS_REPORTLAB = True
+            except Exception:
+                HAS_REPORTLAB = False
 
         if not HAS_REPORTLAB:
             buffer = BytesIO()
@@ -368,43 +397,64 @@ def student_pdf():
         story = []
         styles = getSampleStyleSheet()
 
+        # Build official Servixoo Logo Drawing Flowable
+        dwg = Drawing(522, 55)
+        # Background geometric triangles matching Logo.tsx
+        dwg.add(Polygon([35, 42, 48, 30, 32, 20], fillColor=colors.HexColor('#86efac'), strokeColor=None))
+        dwg.add(Polygon([25, 18, 32, 10, 22, 8], fillColor=colors.HexColor('#2dd4bf'), strokeColor=None))
+        dwg.add(Polygon([185, 15, 195, 5, 180, 8], fillColor=colors.HexColor('#a7f3d0'), strokeColor=None))
+        dwg.add(Polygon([175, 45, 188, 40, 178, 32], fillColor=colors.HexColor('#4ade80'), strokeColor=None))
+        dwg.add(Circle(315, 40, 4, fillColor=colors.HexColor('#a7f3d0'), strokeColor=None))
+        dwg.add(Polygon([310, 15, 325, 4, 305, 2], fillColor=colors.HexColor('#bbf7d0'), strokeColor=None))
+        dwg.add(Polygon([365, 28, 375, 18, 360, 15], fillColor=colors.HexColor('#2dd4bf'), strokeColor=None))
+        dwg.add(Polygon([275, 12, 282, 5, 272, 3], fillColor=colors.HexColor('#06b6d4'), strokeColor=None))
+        # Wordmark "SERVIXOO"
+        dwg.add(String(261, 20, 'SERVIXOO', textAnchor='middle', fontName='Helvetica-Bold', fontSize=26, fillColor=colors.HexColor('#0d7675')))
+        # Subtext "AI • SKILLS • INDUSTRY ALIGNMENT"
+        dwg.add(String(261, 6, 'AI • SKILLS • INDUSTRY ALIGNMENT', textAnchor='middle', fontName='Helvetica-Bold', fontSize=6.5, fillColor=colors.HexColor('#64748b')))
+        
+        story.append(dwg)
+        story.append(Spacer(1, 8))
+
         # Custom typography styles
         title_style = ParagraphStyle(
             'HeaderTitle',
             parent=styles['Heading1'],
             fontName='Helvetica-Bold',
-            fontSize=22,
-            leading=26,
+            fontSize=18,
+            leading=22,
             textColor=colors.HexColor('#0f172a'),
+            alignment=1,
             spaceAfter=4
         )
         subtitle_style = ParagraphStyle(
             'HeaderSubtitle',
             parent=styles['Normal'],
             fontName='Helvetica',
-            fontSize=10,
-            leading=14,
+            fontSize=9.5,
+            leading=13,
             textColor=colors.HexColor('#475569'),
-            spaceAfter=12
+            alignment=1,
+            spaceAfter=10
         )
         section_heading = ParagraphStyle(
             'SectionHead',
             parent=styles['Heading2'],
             fontName='Helvetica-Bold',
-            fontSize=13,
-            leading=17,
+            fontSize=12,
+            leading=16,
             textColor=colors.HexColor('#1e293b'),
-            spaceBefore=14,
+            spaceBefore=12,
             spaceAfter=6
         )
         body_text = ParagraphStyle(
             'BodyRegular',
             parent=styles['Normal'],
             fontName='Helvetica',
-            fontSize=9.5,
-            leading=13.5,
+            fontSize=9,
+            leading=13,
             textColor=colors.HexColor('#334155'),
-            spaceAfter=6
+            spaceAfter=5
         )
         bold_label = ParagraphStyle(
             'BoldLabel',
@@ -425,10 +475,10 @@ def student_pdf():
             textColor=colors.HexColor('#b45309')
         )
 
-        # 1. Header & Branding
-        story.append(Paragraph("<b>SERVIXOO</b> CAREER READINESS & ALIGNMENT REPORT", title_style))
+        # 1. Header & Title Banner
+        story.append(Paragraph("CAREER READINESS & SKILL GAP REPORT", title_style))
         story.append(Paragraph("AI-Driven Labour Market Intelligence & Curriculum Calibration Engine", subtitle_style))
-        story.append(HRFlowable(width="100%", thickness=2, color=colors.HexColor('#2563eb'), spaceBefore=2, spaceAfter=12))
+        story.append(HRFlowable(width="100%", thickness=2, color=colors.HexColor('#0d7675'), spaceBefore=2, spaceAfter=10))
 
         # 2. Executive Summary Card
         score_color = '#059669' if readiness_score >= 70 else ('#d97706' if readiness_score >= 45 else '#dc2626')
@@ -573,6 +623,62 @@ if __name__ == '__main__':
         class LightweightMLServer(BaseHTTPRequestHandler):
             def log_message(self, format, *args):
                 pass
+
+            def do_GET(self):
+                global request, send_file
+                from urllib.parse import urlparse, parse_qs
+                parsed = urlparse(self.path)
+                query_params = parse_qs(parsed.query)
+                clean_args = {k: v[0] if len(v) == 1 else v for k, v in query_params.items()}
+
+                if parsed.path == '/health':
+                    self.send_response(200)
+                    self.send_header('Content-Type', 'application/json')
+                    self.end_headers()
+                    self.wfile.write(json.dumps({'status': 'ok', 'service': 'servixoo-ml'}).encode('utf-8'))
+                    return
+
+                if parsed.path in ['/ml/student-pdf', '/ml/course-pdf']:
+                    class GetRequest:
+                        method = 'GET'
+                        args = clean_args
+                        def get_json(self, silent=True):
+                            return clean_args
+
+                    old_request = request if 'request' in globals() else None
+                    old_send_file = send_file if 'send_file' in globals() else None
+                    request = GetRequest()
+                    send_file = mock_send_file
+
+                    try:
+                        response_body = student_pdf()
+                        status_code = 200
+                        content_type = 'application/pdf'
+                    except Exception as ex:
+                        response_body = json.dumps({'error': str(ex)})
+                        status_code = 500
+                        content_type = 'application/json'
+                    finally:
+                        if old_request: request = old_request
+                        if old_send_file: send_file = old_send_file
+
+                    self.send_response(status_code)
+                    self.send_header('Content-Type', content_type)
+                    if isinstance(response_body, bytes):
+                        self.send_header('Content-Length', str(len(response_body)))
+                        self.end_headers()
+                        self.wfile.write(response_body)
+                    else:
+                        body_bytes = (response_body or '').encode('utf-8')
+                        self.send_header('Content-Length', str(len(body_bytes)))
+                        self.end_headers()
+                        self.wfile.write(body_bytes)
+                    return
+
+                self.send_response(404)
+                self.send_header('Content-Type', 'application/json')
+                self.end_headers()
+                self.wfile.write(json.dumps({'error': 'Not Found'}).encode('utf-8'))
 
             def do_POST(self):
                 global request, send_file

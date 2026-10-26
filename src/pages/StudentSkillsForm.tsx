@@ -107,9 +107,13 @@ export default function StudentSkillsForm({
       <div className="max-w-4xl mx-auto space-y-6">
         
         {/* Header Block */}
-        <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 border-b pb-6 border-slate-700/40">
+        <div className={`flex flex-col sm:flex-row sm:items-center justify-between gap-4 border-b pb-6 ${
+          isDark ? 'border-slate-800' : 'border-slate-200'
+        }`}>
           <div>
-            <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full text-xs font-semibold mb-2 border shadow-xs bg-cyan-950/60 border-cyan-700/50 text-cyan-300">
+            <div className={`inline-flex items-center gap-2 px-3 py-1 rounded-full text-xs font-semibold mb-2 border shadow-xs ${
+              isDark ? 'bg-cyan-950/70 border-cyan-700/50 text-cyan-300' : 'bg-cyan-100 border-cyan-300 text-cyan-900 font-bold'
+            }`}>
               <Sparkles className="w-3.5 h-3.5 text-cyan-400" />
               Piece 1 of 5 • Student Intake Engine
             </div>
@@ -150,7 +154,7 @@ export default function StudentSkillsForm({
         </div>
 
         {/* Main Intake Form Card */}
-        <div className={`rounded-2xl border p-6 sm:p-8 shadow-xl transition-all ${
+        <div className={`rounded-2xl border p-4 sm:p-8 shadow-xl transition-all ${
           isDark 
             ? 'bg-[#0E1A38] border-slate-750 shadow-cyan-950/20' 
             : 'bg-white border-slate-200 shadow-slate-200'
@@ -165,20 +169,22 @@ export default function StudentSkillsForm({
           >
             {/* Field 1: Dream Job Dropdown */}
             <div className="space-y-2">
-              <label className="block text-xs font-bold uppercase tracking-wider flex items-center gap-2">
-                <Briefcase className="w-4 h-4 text-cyan-400" />
+              <label className={`block text-xs font-bold uppercase tracking-wider flex items-center gap-2 ${
+                isDark ? 'text-slate-300' : 'text-slate-800'
+              }`}>
+                <Briefcase className={`w-4 h-4 ${isDark ? 'text-cyan-400' : 'text-blue-600'}`} />
                 Target Dream Job Role
-                <span className="text-red-400">*</span>
+                <span className="text-red-500">*</span>
               </label>
               
               <div className="relative">
                 <select
                   value={selectedRole}
                   onChange={(e) => setSelectedRole(e.target.value)}
-                  className={`w-full px-4 py-3 rounded-xl border text-sm font-semibold transition-all appearance-none cursor-pointer focus:outline-none focus:ring-2 ${
+                  className={`w-full px-4 py-3 rounded-xl border text-xs sm:text-sm font-semibold transition-all appearance-none cursor-pointer focus:outline-none focus:ring-2 ${
                     isDark 
                       ? 'bg-[#080E1E] border-slate-700 text-white focus:ring-cyan-500/50 focus:border-cyan-400' 
-                      : 'bg-slate-50 border-slate-300 text-slate-900 focus:ring-blue-500/50 focus:border-blue-500'
+                      : 'bg-slate-50 border-slate-300 text-slate-900 focus:ring-blue-500/50 focus:border-blue-500 shadow-xs'
                   }`}
                 >
                   {DREAM_JOB_ROLES.map((role) => (
@@ -192,7 +198,9 @@ export default function StudentSkillsForm({
                 </div>
               </div>
 
-              <div className="flex items-center justify-between text-[11px] text-slate-400 pt-1">
+              <div className={`flex items-center justify-between text-[11px] pt-1 ${
+                isDark ? 'text-slate-400' : 'text-slate-600'
+              }`}>
                 <span>Locked to 4 hackathon roles: Python Developer, Data Analyst, Digital Marketer, Backend Engineer.</span>
               </div>
             </div>
@@ -200,17 +208,19 @@ export default function StudentSkillsForm({
             {/* Field 2: College Skills Checklist */}
             <div className="space-y-3">
               <div className="flex items-center justify-between">
-                <label className="block text-xs font-bold uppercase tracking-wider flex items-center gap-2">
-                  <BookOpen className="w-4 h-4 text-emerald-400" />
+                <label className={`block text-xs font-bold uppercase tracking-wider flex items-center gap-2 ${
+                  isDark ? 'text-slate-300' : 'text-slate-800'
+                }`}>
+                  <BookOpen className={`w-4 h-4 ${isDark ? 'text-emerald-400' : 'text-emerald-600'}`} />
                   What You Learned In College (Checklist)
-                  <span className="text-red-400">*</span>
+                  <span className="text-red-500">*</span>
                 </label>
-                <span className="text-[11px] text-slate-400">
+                <span className={`text-[11px] ${isDark ? 'text-slate-400' : 'text-slate-600'}`}>
                   {selectedSkills.length} selected
                 </span>
               </div>
 
-              <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-5 gap-2.5">
+              <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-5 gap-2 sm:gap-2.5">
                 {COLLEGE_SKILLS_CHECKLIST.map((skill) => {
                   const isChecked = selectedSkills.includes(skill);
                   return (
@@ -218,19 +228,21 @@ export default function StudentSkillsForm({
                       type="button"
                       key={skill}
                       onClick={() => toggleSkill(skill)}
-                      className={`flex items-center justify-between p-3 rounded-xl border text-xs font-semibold transition-all cursor-pointer text-left ${
+                      className={`flex items-center justify-between p-2.5 sm:p-3 rounded-xl border text-[11px] sm:text-xs font-semibold transition-all cursor-pointer text-left ${
                         isChecked
-                          ? 'bg-gradient-to-r from-emerald-600/20 to-teal-600/20 text-emerald-300 border-emerald-500/60 shadow-xs'
+                          ? isDark
+                            ? 'bg-gradient-to-r from-emerald-600/20 to-teal-600/20 text-emerald-300 border-emerald-500/60 shadow-xs'
+                            : 'bg-emerald-50 text-emerald-950 border-emerald-500 shadow-xs font-bold'
                           : isDark
                             ? 'bg-[#080E1E] text-slate-300 border-slate-700/80 hover:bg-slate-800 hover:text-white'
-                            : 'bg-slate-50 text-slate-700 border-slate-200 hover:bg-slate-100 hover:text-slate-900'
+                            : 'bg-slate-50 text-slate-800 border-slate-300 hover:bg-slate-100 hover:text-slate-900'
                       }`}
                     >
                       <span className="truncate">{skill}</span>
-                      <div className={`w-4 h-4 rounded-md flex items-center justify-center shrink-0 ml-1.5 transition-colors ${
+                      <div className={`w-3.5 h-3.5 sm:w-4 sm:h-4 rounded-md flex items-center justify-center shrink-0 ml-1 transition-colors ${
                         isChecked 
                           ? 'bg-emerald-500 text-slate-950 font-bold' 
-                          : isDark ? 'bg-slate-800 border border-slate-700' : 'bg-slate-200'
+                          : isDark ? 'bg-slate-800 border border-slate-700' : 'bg-slate-200 border border-slate-300'
                       }`}>
                         {isChecked && <Check className="w-3 h-3 stroke-[3]" />}
                       </div>
@@ -242,8 +254,10 @@ export default function StudentSkillsForm({
 
             {/* Field 3: Free-Text Coursework Input */}
             <div className="space-y-2">
-              <label className="block text-xs font-bold uppercase tracking-wider flex items-center gap-2">
-                <Layers className="w-4 h-4 text-cyan-400" />
+              <label className={`block text-xs font-bold uppercase tracking-wider flex items-center gap-2 ${
+                isDark ? 'text-slate-300' : 'text-slate-800'
+              }`}>
+                <Layers className={`w-4 h-4 ${isDark ? 'text-cyan-400' : 'text-blue-600'}`} />
                 Additional Coursework, Electives, or Lab Projects (Free-Text)
               </label>
               <textarea
@@ -254,10 +268,10 @@ export default function StudentSkillsForm({
                 className={`w-full px-4 py-3 rounded-xl border text-xs font-medium transition-all focus:outline-none focus:ring-2 resize-none ${
                   isDark 
                     ? 'bg-[#080E1E] border-slate-700 text-white placeholder-slate-500 focus:ring-cyan-500/50 focus:border-cyan-400' 
-                    : 'bg-slate-50 border-slate-300 text-slate-900 placeholder-slate-400 focus:ring-blue-500/50 focus:border-blue-500'
+                    : 'bg-slate-50 border-slate-300 text-slate-900 placeholder-slate-400 focus:ring-blue-500/50 focus:border-blue-500 shadow-xs'
                 }`}
               />
-              <p className="text-[11px] text-slate-400">
+              <p className={`text-[11px] ${isDark ? 'text-slate-400' : 'text-slate-600'}`}>
                 You can write free-form text or comma-separated subjects. Scikit-learn TF-IDF vectorizes both automatically.
               </p>
             </div>
@@ -272,8 +286,10 @@ export default function StudentSkillsForm({
 
             {/* Submit Action CTA */}
             <div className="pt-2 flex flex-col sm:flex-row items-center justify-between gap-4">
-              <div className="text-xs text-slate-400 flex items-center gap-1.5">
-                <CheckCircle2 className="w-4 h-4 text-cyan-400" />
+              <div className={`text-xs flex items-center gap-1.5 ${
+                isDark ? 'text-slate-400' : 'text-slate-600'
+              }`}>
+                <CheckCircle2 className={`w-4 h-4 ${isDark ? 'text-cyan-400' : 'text-blue-600'}`} />
                 <span>Runs Python Scikit-learn Cosine Similarity on submission</span>
               </div>
 
@@ -299,22 +315,28 @@ export default function StudentSkillsForm({
         </div>
 
         {/* Feature summary preview banner */}
-        <div className={`grid grid-cols-1 md:grid-cols-3 gap-4 pt-2`}>
-          <div className={`p-4 rounded-xl border ${isDark ? 'bg-[#0E1A38]/50 border-slate-800' : 'bg-white border-slate-200'}`}>
-            <h4 className="font-bold text-xs text-cyan-400">Real ML Vectorization</h4>
-            <p className={`text-[11px] mt-1 ${isDark ? 'text-slate-400' : 'text-slate-500'}`}>
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-4 pt-2">
+          <div className={`p-4 rounded-xl border transition-colors ${
+            isDark ? 'bg-[#0E1A38]/50 border-slate-800' : 'bg-white border-slate-200 shadow-sm'
+          }`}>
+            <h4 className={`font-bold text-xs ${isDark ? 'text-cyan-400' : 'text-blue-700'}`}>Real ML Vectorization</h4>
+            <p className={`text-[11px] mt-1 ${isDark ? 'text-slate-400' : 'text-slate-600'}`}>
               Transforms syllabus coursework and market requirements into TF-IDF cosine similarity vectors in Python.
             </p>
           </div>
-          <div className={`p-4 rounded-xl border ${isDark ? 'bg-[#0E1A38]/50 border-slate-800' : 'bg-white border-slate-200'}`}>
-            <h4 className="font-bold text-xs text-emerald-400">Interactive 3D Galaxy</h4>
-            <p className={`text-[11px] mt-1 ${isDark ? 'text-slate-400' : 'text-slate-500'}`}>
+          <div className={`p-4 rounded-xl border transition-colors ${
+            isDark ? 'bg-[#0E1A38]/50 border-slate-800' : 'bg-white border-slate-200 shadow-sm'
+          }`}>
+            <h4 className={`font-bold text-xs ${isDark ? 'text-emerald-400' : 'text-emerald-700'}`}>Interactive 3D Galaxy</h4>
+            <p className={`text-[11px] mt-1 ${isDark ? 'text-slate-400' : 'text-slate-600'}`}>
               Orbit your target career nucleus with Three.js. Drag to inspect matched vs missing skill nodes.
             </p>
           </div>
-          <div className={`p-4 rounded-xl border ${isDark ? 'bg-[#0E1A38]/50 border-slate-800' : 'bg-white border-slate-200'}`}>
-            <h4 className="font-bold text-xs text-amber-400">PDF Report Generation</h4>
-            <p className={`text-[11px] mt-1 ${isDark ? 'text-slate-400' : 'text-slate-500'}`}>
+          <div className={`p-4 rounded-xl border transition-colors ${
+            isDark ? 'bg-[#0E1A38]/50 border-slate-800' : 'bg-white border-slate-200 shadow-sm'
+          }`}>
+            <h4 className={`font-bold text-xs ${isDark ? 'text-amber-400' : 'text-amber-700'}`}>PDF Report Generation</h4>
+            <p className={`text-[11px] mt-1 ${isDark ? 'text-slate-400' : 'text-slate-600'}`}>
               Download a real ReportLab PDF with your circular score, missing competencies, and 5-section AI roadmap.
             </p>
           </div>
